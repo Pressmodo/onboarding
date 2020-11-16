@@ -77,3 +77,16 @@ var sassConfig = {
 };
 
 mix.react( `${devPath}/js/react/index.js`, 'js/react' );
+
+mix.webpackConfig(webpack => {
+    return {
+		stats       : 'minimal',
+		devtool     : mix.inProduction() ? false : 'source-map',
+		performance : { hints  : false    },
+        plugins: [
+            new webpack.ProvidePlugin({
+                "React": "react",
+            })
+        ]
+    };
+});

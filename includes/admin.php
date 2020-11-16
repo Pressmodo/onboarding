@@ -25,7 +25,7 @@ add_action(
 
 		foreach ( $submenu as $key => $menu ) {
 			if ( is_array( $menu ) ) {
-				foreach( $menu as $subMenuKey => $subMenuItem ) {
+				foreach ( $menu as $subMenuKey => $subMenuItem ) {
 					if ( $subMenuItem[2] === 'pressmodo-onboarding' ) {
 						$submenu[ $key ][ $subMenuKey ][ 2 ] = trailingslashit( get_site_url( null, 'onboarding' ) ); //phpcs:ignore
 					}

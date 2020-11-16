@@ -11,7 +11,7 @@
 
 namespace Pressmodo\Onboarding\Controllers;
 
-use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\HtmlResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -31,10 +31,11 @@ class OnboardingController {
 	 */
 	public function view( ServerRequestInterface $request ) : ResponseInterface {
 
-		$response = new Response();
-		$response->getBody()->write('<h1>Hello, World!</h1>');
+		ob_start();
+		require_once PM_ONBOARDING_PLUGIN_DIR . '/resources/views/onboarding.php';
+		$output = ob_get_clean();
 
-		return $response;
+		return new HtmlResponse( $output );
 
 	}
 
