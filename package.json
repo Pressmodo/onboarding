@@ -6,21 +6,27 @@
   "author": "Alessandro Tesoro",
   "license": "GPL-3.0-or-later",
   "scripts": {
-	"build": "npm run prod && npm run i18n && npm run export",
-	"dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-	"watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-	"prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-	"export": "yarn prod && composer update --prefer-dist --no-dev && cross-env export=1 NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-	"i18n": "npm run i18n:textdomain && npm run i18n:pot",
-	"i18n:textdomain": "npx wpi18n addtextdomain --exclude=vendor,node_modules",
-	"i18n:pot": "npx wpi18n makepot"
-	},
+    "build": "npm run prod && npm run i18n && npm run export",
+    "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "export": "yarn prod && composer update --prefer-dist --no-dev && cross-env export=1 NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "i18n": "npm run i18n:textdomain && npm run i18n:pot",
+    "i18n:textdomain": "npx wpi18n addtextdomain --exclude=vendor,node_modules",
+    "i18n:pot": "npx wpi18n makepot"
+  },
   "devDependencies": {
+    "@babel/preset-react": "^7.12.5",
     "copy-webpack-plugin": "^6.3.1",
     "cross-env": "^7.0.2",
     "laravel-mix": "^5.0.9",
     "node-wp-i18n": "^1.2.3",
     "postcss-preset-env": "^6.7.0",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "vue-template-compiler": "^2.6.12"
+  },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   }
 }

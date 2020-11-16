@@ -75,3 +75,5 @@ var sassConfig = {
 	indentType  : 'tab',
 	indentWidth : 1
 };
+
+mix.react( `${devPath}/js/react/index.js`, 'js/react' );
