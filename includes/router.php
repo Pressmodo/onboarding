@@ -25,15 +25,7 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
 
 $router = new League\Route\Router();
 
-$router->map(
-	'GET',
-	'/onboarding',
-	function ( ServerRequestInterface $request ) : ResponseInterface { //phpcs:ignore
-		$response = new Laminas\Diactoros\Response();
-		$response->getBody()->write( '<h1>Hello, World!</h1>' );
-		return $response;
-	}
-);
+$router->map( 'GET', '/onboarding', '\Pressmodo\Onboarding\Controllers\OnboardingController::view' );
 
 /**
  * After WP has successfully initialized, we dispatch routes requests only when they match.
@@ -44,6 +36,7 @@ add_action(
 		try {
 			$response = $router->dispatch( $request );
 			( new Laminas\HttpHandlerRunner\Emitter\SapiEmitter() )->emit( $response );
+			exit;
 		} catch ( Exception $e ) {
 			return;
 		}
