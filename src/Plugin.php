@@ -6,7 +6,7 @@
  * @author    Sematico LTD <hello@sematico.com>
  * @copyright 2020 Sematico LTD
  * @license   https://www.gnu.org/licenses/gpl-3.0.html GPL-3.0-or-later
- * @link      https://PM_ONBOARDING.com
+ * @link      https://sematico.com
  */
 
 namespace Pressmodo\Onboarding;
@@ -68,7 +68,7 @@ class Plugin {
 	 */
 	public function __clone() {
 		// Cloning instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'PM_ONBOARDING' ), '0.1.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'pm-onboarding' ), '0.1.0' );
 	}
 	/**
 	 * Disable un-serializing of the class.
@@ -79,7 +79,7 @@ class Plugin {
 	 */
 	public function __wakeup() {
 		// Unserializing instances of the class is forbidden.
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'PM_ONBOARDING' ), '0.1.0' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'pm-onboarding' ), '0.1.0' );
 	}
 
 	/**
