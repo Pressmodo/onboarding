@@ -50,6 +50,7 @@ class Plugin {
 		self::setupInstance( $file );
 
 		self::$instance->setupConstants();
+		self::$instance->includeFiles();
 
 		// Return the instance.
 		return self::$instance;
@@ -146,6 +147,16 @@ class Plugin {
 	 */
 	public function textdomain() {
 		load_plugin_textdomain( 'pm-onboarding', false, PM_ONBOARDING_PLUGIN_DIR . '/languages' );
+	}
+
+	/**
+	 * Include required files.
+	 *
+	 * @return void
+	 */
+	private function includeFiles() {
+		require_once PM_ONBOARDING_PLUGIN_DIR . 'includes/router.php';
+		require_once PM_ONBOARDING_PLUGIN_DIR . 'includes/admin.php';
 	}
 
 }
