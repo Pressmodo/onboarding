@@ -78,6 +78,8 @@ var sassConfig = {
 
 mix.react( `${devPath}/js/react/index.js`, 'js/react' );
 
+//mix.sass( `${devPath}/scss/react-app.scss`, 'css/react' );
+
 mix.webpackConfig(webpack => {
     return {
 		stats       : 'minimal',

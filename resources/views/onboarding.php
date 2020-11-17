@@ -9,6 +9,8 @@
  * @link      https://sematico.com
  */
 
+use Pressmodo\Onboarding\Helper;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -38,6 +40,11 @@ defined( 'ABSPATH' ) || exit;
 	  To begin the development, run `npm start` or `yarn start`.
 	  To create a production bundle, use `npm run build` or `yarn build`.
 	-->
+
+	<script>
+	<?php echo Helper::localizeScripts( 'pmOnboarding', $jsData ); ?>
+	</script>
+
 	<script src='<?php echo esc_url( PM_ONBOARDING_PLUGIN_URL . 'dist/js/react/index.js' ); ?>'></script>
 
   </body>

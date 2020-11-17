@@ -1,0 +1,19 @@
+.pm-onboarding-header {
+	&:after {
+		display: none;
+	}
+}
+
+.wp-logo {
+	background: #191e23;
+	transition: all 0.3s ease;
+	&:hover {
+		background:rgba($color: #191e23, $alpha: 0.9);
+	}
+}
+
+.pm-onboarding-support-links {
+	svg {
+		margin-right: 0.5rem;
+	}
+}

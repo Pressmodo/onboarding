@@ -26,9 +26,19 @@
     "node-wp-i18n": "^1.2.3",
     "postcss-preset-env": "^6.7.0",
     "rimraf": "^3.0.2",
+    "sass": "^1.29.0",
+    "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.12"
   },
   "dependencies": {
+    "@elastic/datemath": "^5.0.3",
+    "@elastic/eui": "^30.3.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-brands-svg-icons": "^5.15.1",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.12",
+    "@wordpress/i18n": "^3.16.0",
+    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   }

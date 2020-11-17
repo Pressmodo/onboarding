@@ -9,9 +9,6 @@
  * @link      https://sematico.com
  */
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 

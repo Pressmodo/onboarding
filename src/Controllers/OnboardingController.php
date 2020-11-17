@@ -12,6 +12,7 @@
 namespace Pressmodo\Onboarding\Controllers;
 
 use Laminas\Diactoros\Response\HtmlResponse;
+use Pressmodo\Onboarding\Helper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -24,6 +25,20 @@ defined( 'ABSPATH' ) || exit;
 class OnboardingController {
 
 	/**
+	 * Get js variables for the react app.
+	 *
+	 * @return array
+	 */
+	private function getJsData() {
+		return [
+			'admin_url'         => esc_url( get_admin_url() ),
+			'plugin_url'        => esc_url( PM_ONBOARDING_PLUGIN_URL ),
+			'documentation_url' => Helper::getDocumentationUrl(),
+			'support_url'       => 'https://support.pressmodo.com',
+		];
+	}
+
+	/**
 	 * Display the react app when viewing the onboarding page.
 	 *
 	 * @param ServerRequestInterface $request
@@ -32,7 +47,8 @@ class OnboardingController {
 	public function view( ServerRequestInterface $request ) : ResponseInterface {
 
 		ob_start();
-		require_once PM_ONBOARDING_PLUGIN_DIR . '/resources/views/onboarding.php';
+		$jsData = $this->getJsData();
+		include PM_ONBOARDING_PLUGIN_DIR . '/resources/views/onboarding.php';
 		$output = ob_get_clean();
 
 		return new HtmlResponse( $output );
