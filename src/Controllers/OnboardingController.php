@@ -15,6 +15,7 @@ use Laminas\Diactoros\Response\HtmlResponse;
 use Pressmodo\Onboarding\Helper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use WP_Theme;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -23,6 +24,20 @@ defined( 'ABSPATH' ) || exit;
  * Onboarding controller
  */
 class OnboardingController {
+
+	/**
+	 * Theme details.
+	 *
+	 * @var WP_Theme
+	 */
+	public $theme;
+
+	/**
+	 * Get things started.
+	 */
+	public function __construct() {
+		$this->theme = wp_get_theme();
+	}
 
 	/**
 	 * Get js variables for the react app.
@@ -35,6 +50,7 @@ class OnboardingController {
 			'plugin_url'        => esc_url( PM_ONBOARDING_PLUGIN_URL ),
 			'documentation_url' => Helper::getDocumentationUrl(),
 			'support_url'       => 'https://support.pressmodo.com',
+			'theme'             => $this->theme->get( 'Name' ),
 		];
 	}
 

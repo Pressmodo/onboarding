@@ -12,8 +12,36 @@
 	}
 }
 
+.pm-logo {
+	background: #1400d1;
+	padding: 1rem;
+	border-radius: 3px;
+	height: 64px;
+	width: 64px;
+	margin: 0 auto;
+}
+
 .pm-onboarding-support-links {
 	svg {
 		margin-right: 0.5rem;
 	}
 }
+
+.pm-onboarding-page-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+
+	.euiCallOut {
+		text-align: left;
+	}
+}
+
+#pm-logo-svg {
+	.cls-1{fill:#fff;}
+	.cls-2{fill:#eee;}
+}
+
+

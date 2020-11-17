@@ -17,7 +17,7 @@ export default () => {
 	const wpLogo = pmOnboarding.plugin_url + 'resources/images/wp-logo.svg';
 
 	return (
-		<EuiHeader>
+		<EuiHeader position="fixed">
 			<EuiHeaderSectionItem className="pm-onboarding-header">
 				<EuiToolTip content={ __( 'Back to the WordPress dashboard' ) }>
 					<EuiHeaderLogo

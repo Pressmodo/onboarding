@@ -1,8 +1,12 @@
 import Header from './Header'
+import OnboardingPage from './OnboardingPage'
 
 function App() {
 	return (
-		<Header></Header>
+		<div class="onboard-wrapper">
+			<Header></Header>
+			<OnboardingPage></OnboardingPage>
+		</div>
 	);
 }
 
