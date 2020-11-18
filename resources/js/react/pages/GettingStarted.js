@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { sprintf, __ } from '@wordpress/i18n';
-import useRouter from './hooks/useRouter';
-import PmLogo from './PressmodoLogo';
+import useRouter from '../hooks/useRouter';
+import PmLogo from '../PressmodoLogo';
 
 import {
 	EuiPage,

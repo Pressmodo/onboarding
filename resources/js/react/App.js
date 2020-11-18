@@ -1,5 +1,5 @@
 import Header from './Header'
-import OnboardingPage from './OnboardingPage'
+import GettingStartedPage from './pages/GettingStarted'
 
 import {
 	BrowserRouter as Router,
@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 
 function OnboardingApp() {
-
 	return (
 		<div>
 			<Switch>
@@ -16,7 +15,7 @@ function OnboardingApp() {
 					about page
 				</Route>
 				<Route path="/onboarding">
-					<OnboardingPage></OnboardingPage>
+					<GettingStartedPage></GettingStartedPage>
 				</Route>
 			</Switch>
 		</div>
