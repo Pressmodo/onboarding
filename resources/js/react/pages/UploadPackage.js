@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import { sprintf, __ } from '@wordpress/i18n';
 import useRouter from '../hooks/useRouter';
 import PmLogo from '../PressmodoLogo';
-import { steps } from '../utilities/steps'
 
 import {
 	EuiPage,
@@ -21,6 +20,7 @@ export default () => {
 
 	const [ isUploading, setIsUploading ] = useState(false);
 	const [ canUpload, setCanUpload ] = useState(false)
+	const [ processingError, setProcessingError ] = useState( { hasError: false, message: null } )
 
 	return (
 		<EuiPage>
@@ -41,9 +41,19 @@ export default () => {
 									<div>
 										<EuiCallOut
 											size="m"
-											title={ __( 'Please wait while we upload & verify the demo package. Do not close this page.' ) }
+											title={ __( 'Uploading & verifying the demo package. Do not close this page.' ) }
 										/>
 										<br/>
+									</div>
+								}
+
+								{ processingError.hasError === true && ! isUploading &&
+									<div>
+										<EuiCallOut title={ __( 'Something went wrong' ) } color="danger">
+											<p>
+												{ processingError.message }
+											</p>
+										</EuiCallOut>
 									</div>
 								}
 
@@ -65,9 +75,12 @@ export default () => {
 							</Fragment>
 						}
 						actions={
-							<EuiButton color="primary" fill onClick={ () => setIsUploading(true) } isDisabled={ ! canUpload } isLoading={ isUploading } >
-								{ __('Upload demo package') }
-							</EuiButton>
+							[
+								<EuiButton color="primary" fill onClick={ () => setIsUploading(true) } isDisabled={ ! canUpload } isLoading={ isUploading }>
+									{ __('Upload demo package') }
+								</EuiButton>,
+								<EuiButtonEmpty color="danger" isDisabled={ isUploading } onClick={ (e) => router.replace('/onboarding') } >{ __( 'Go back' ) }</EuiButtonEmpty>
+							]
 						}
 					/>
 				</EuiPageContent>
