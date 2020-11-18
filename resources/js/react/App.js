@@ -1,5 +1,6 @@
 import Header from './Header'
 import GettingStartedPage from './pages/GettingStarted'
+import UploadPackage from './pages/UploadPackage'
 
 import {
 	BrowserRouter as Router,
@@ -9,10 +10,10 @@ import {
 
 function OnboardingApp() {
 	return (
-		<div>
+		<div className="pm-onboarding-page-wrapper">
 			<Switch>
 				<Route path="/onboarding/upload">
-					about page
+					<UploadPackage></UploadPackage>
 				</Route>
 				<Route path="/onboarding">
 					<GettingStartedPage></GettingStartedPage>

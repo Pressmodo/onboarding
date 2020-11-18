@@ -18,7 +18,7 @@ export default () => {
 	const router = useRouter();
 
 	return (
-		<EuiPage className="pm-onboarding-page-wrapper">
+		<EuiPage>
 			<EuiPageBody component="div">
 				<EuiPageContent verticalPosition="center" horizontalPosition="center">
 					<EuiPageContentBody>
