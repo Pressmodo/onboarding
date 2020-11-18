@@ -3,6 +3,9 @@ import { sprintf, __ } from '@wordpress/i18n';
 import useRouter from '../hooks/useRouter';
 import PmLogo from '../PressmodoLogo';
 
+import axios from 'axios';
+import qs from 'qs';
+
 import {
 	EuiPage,
 	EuiPageBody,
@@ -21,6 +24,28 @@ export default () => {
 	const [ isUploading, setIsUploading ] = useState(false);
 	const [ canUpload, setCanUpload ] = useState(false)
 	const [ processingError, setProcessingError ] = useState( { hasError: false, message: null } )
+
+	const uploadDemoPackage = ( files ) => {
+		let formData = new FormData()
+
+		formData.append( 'file', files[0] )
+		formData.append( 'action', 'pm_onboarding_upload' )
+		formData.append( 'nonce', pmOnboarding.upload_package_nonce )
+
+		axios.post( pmOnboarding.ajax_url, formData,
+			{
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+			}
+			)
+			.then( function (response) {
+				console.log(response);
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
 
 	return (
 		<EuiPage>
@@ -63,6 +88,7 @@ export default () => {
 									onChange={ (files) => {
 										if ( files.length > 0 ) {
 											setCanUpload( true )
+											uploadDemoPackage( files )
 										} else {
 											setCanUpload( false )
 										}

@@ -46,11 +46,13 @@ class OnboardingController {
 	 */
 	private function getJsData() {
 		return [
-			'admin_url'         => esc_url( get_admin_url() ),
-			'plugin_url'        => esc_url( PM_ONBOARDING_PLUGIN_URL ),
-			'documentation_url' => Helper::getDocumentationUrl(),
-			'support_url'       => 'https://support.pressmodo.com',
-			'theme'             => $this->theme->get( 'Name' ),
+			'admin_url'            => esc_url( get_admin_url() ),
+			'plugin_url'           => esc_url( PM_ONBOARDING_PLUGIN_URL ),
+			'documentation_url'    => Helper::getDocumentationUrl(),
+			'support_url'          => 'https://support.pressmodo.com',
+			'theme'                => $this->theme->get( 'Name' ),
+			'ajax_url'             => admin_url( 'admin-ajax.php' ),
+			'upload_package_nonce' => wp_create_nonce( 'pm_onboarding_upload_nonce' ),
 		];
 	}
 

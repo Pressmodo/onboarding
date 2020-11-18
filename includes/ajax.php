@@ -21,10 +21,13 @@ defined( 'ABSPATH' ) || exit;
  */
 function ajaxDemoPackageUpload() {
 
-	check_ajax_referer( 'pm_onboarding_upload_nonce' );
+	check_ajax_referer( 'pm_onboarding_upload_nonce', 'nonce' );
+
+	var_dump( $_POST );
+	dd( $_FILES );
 
 	wp_send_json_success();
 
 }
-
 add_action( 'wp_ajax_pm_onboarding_upload', __NAMESPACE__ . '\\ajaxDemoPackageUpload' );
+add_action( 'wp_ajax_nopriv_pm_onboarding_upload', __NAMESPACE__ . '\\ajaxDemoPackageUpload' );
