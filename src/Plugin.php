@@ -156,6 +156,7 @@ class Plugin {
 	 */
 	private function includeFiles() {
 		require_once PM_ONBOARDING_PLUGIN_DIR . 'includes/router.php';
+		require_once PM_ONBOARDING_PLUGIN_DIR . 'includes/ajax.php';
 		require_once PM_ONBOARDING_PLUGIN_DIR . 'includes/admin.php';
 	}
 
