@@ -51,7 +51,7 @@ class OnboardingController {
 			'documentation_url'    => Helper::getDocumentationUrl(),
 			'support_url'          => 'https://support.pressmodo.com',
 			'theme'                => $this->theme->get( 'Name' ),
-			'ajax_url'             => admin_url( 'admin-ajax.php' ),
+			'ajax_url'             => esc_url( trailingslashit( home_url() ) . 'onboarding/upload' ),
 			'upload_package_nonce' => wp_create_nonce( 'pm_onboarding_upload_nonce' ),
 		];
 	}
@@ -71,6 +71,24 @@ class OnboardingController {
 
 		return new HtmlResponse( $output );
 
+	}
+
+	/**
+	 * Upload the demo package.
+	 *
+	 * @param ServerRequestInterface $request
+	 * @return void
+	 */
+	public function upload( ServerRequestInterface $request ) {
+
+		check_ajax_referer( 'pm_onboarding_upload_nonce', 'nonce' );
+
+		$submittedData = ! empty( $_POST ) && is_array( $_POST ) ? $_POST : [];
+		$submittedDemoPackage = isset( $_FILES['file'] ) && ! empty( $_FILES['file'] ) ? $_FILES['file'] : false;
+
+		dd( $submittedFiles );
+
+		wp_send_json_success();
 	}
 
 }

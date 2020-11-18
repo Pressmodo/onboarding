@@ -9,6 +9,9 @@
  * @link      https://sematico.com
  */
 
+use Laminas\Diactoros\ResponseFactory;
+use League\Route\Strategy\JsonStrategy;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +25,11 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
 
 $router = new League\Route\Router();
 
+$responseFactory = new ResponseFactory();
+
 $router->map( 'GET', '/onboarding', '\Pressmodo\Onboarding\Controllers\OnboardingController::view' );
+$router->map( 'POST', '/onboarding/upload', '\Pressmodo\Onboarding\Controllers\OnboardingController::upload' )
+	->setStrategy( new JsonStrategy( $responseFactory ) );
 
 /**
  * After WP has successfully initialized, we dispatch routes requests only when they match.
