@@ -16,29 +16,47 @@ import {
 	EuiCallOut,
 	EuiButtonEmpty,
 	EuiLoadingSpinner,
+	EuiBasicTable,
 } from '@elastic/eui';
 
 export default () => {
 
 	const router = useRouter();
 
-	const [ isVerifying, setIsVerifying ] = useState( true )
-	const [ processingError, setProcessingError ] = useState({ hasError: false, message: null })
-	const [ requiresInstall, setRequiresInstall ] = useState( false )
+	const [isVerifying, setIsVerifying] = useState(true)
+	const [processingError, setProcessingError] = useState({ hasError: false, message: null })
+	const [requiresInstall, setRequiresInstall] = useState(false)
+
+	const columns = [
+		{
+			field: 'name',
+			name: __( 'Plugin' ),
+		},
+		{
+			field: 'status',
+			name: __( 'Status' ),
+		},
+	];
+
+	const items = [
+		{
+			name: 'test 123',
+		}
+	]
 
 	/**
 	 * Verify required plugins are all installed or activated.
 	 */
 	const requestPluginsVerification = () => {
-		setIsVerifying( true );
+		setIsVerifying(true);
 
 		let formData = new FormData()
 
-		formData.append( 'nonce', pmOnboarding.verify_plugins_nonce )
+		formData.append('nonce', pmOnboarding.verify_plugins_nonce)
 
-		axios.post( pmOnboarding.verification_url, formData )
+		axios.post(pmOnboarding.verification_url, formData)
 			.then(function (response) {
-				setIsVerifying( false )
+				setIsVerifying(false)
 			})
 			.catch(function (error) {
 				if (error.response) {
@@ -59,8 +77,8 @@ export default () => {
 				} else {
 					setProcessingError({ hasError: true, message: error.message })
 				}
-				setRequiresInstall( true )
-				setIsVerifying( false )
+				setRequiresInstall(true)
+				setIsVerifying(false)
 			});
 
 	}
@@ -68,11 +86,11 @@ export default () => {
 	/**
 	 * Trigger on page load.
 	 */
-	useEffect( () => {
+	useEffect(() => {
 
 		requestPluginsVerification()
 
-	}, [] )
+	}, [])
 
 	return (
 		<EuiPage>
@@ -83,19 +101,19 @@ export default () => {
 						<PmLogo></PmLogo>
 
 						<EuiEmptyPrompt
-							title={<h2> { __( 'Plugins installation' ) } </h2>}
+							title={<h2> {__('Plugins installation')} </h2>}
 							body={
 								<Fragment>
 
-									{ isVerifying &&
+									{isVerifying &&
 										<div>
-											<EuiCallOut title={ __( 'Required plugins verification' ) }>{ __( 'Verifying the required plugins for the selected demo. Please do not close this page.' ) }</EuiCallOut>
+											<EuiCallOut title={__('Required plugins verification')}>{__('Verifying the required plugins for the selected demo. Please do not close this page.')}</EuiCallOut>
 										</div>
 									}
 
-									{ processingError.hasError === true && !isVerifying &&
+									{processingError.hasError === true && !isVerifying &&
 										<div>
-											<EuiCallOut title={ __('Required plugins missing') } color="warning">
+											<EuiCallOut title={__('Required plugins missing')} color="warning">
 												<p>
 													{processingError.message}
 												</p>
@@ -104,20 +122,26 @@ export default () => {
 										</div>
 									}
 
-									{ isVerifying &&
+									{isVerifying &&
 										<div>
-											<br/>
+											<br />
 											<EuiLoadingSpinner size="xl" />
 										</div>
 									}
+
+									<EuiBasicTable
+										items={items}
+										rowHeader="github"
+										columns={columns}
+									/>
 								</Fragment>
 							}
 							actions={
 								[
-									<EuiButton color="primary" fill isDisabled={ ! requiresInstall }>
+									<EuiButton color="primary" fill isDisabled={!requiresInstall}>
 										{__('Install all plugins')}
 									</EuiButton>,
-									<EuiButtonEmpty color="danger" isDisabled={ isVerifying } onClick={ (e) => router.replace('/onboarding/upload') } >{ __( 'Go back' ) }</EuiButtonEmpty>
+									<EuiButtonEmpty color="danger" isDisabled={isVerifying} onClick={(e) => router.replace('/onboarding/upload')} >{__('Go back')}</EuiButtonEmpty>
 								]
 							}
 						/>
