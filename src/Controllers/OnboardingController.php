@@ -186,7 +186,13 @@ class OnboardingController {
 		}
 
 		if ( ! empty( $nonInstalledPlugins ) ) {
-			wp_send_json_error( [ 'not_found' => $nonInstalledPlugins, 'error_message' => __( 'Some required plugins have either not been installed or activated. Press the "Install all plugins" button below to proceed with the demo installation.' ) ], 403 );
+			wp_send_json_error(
+				[
+					'not_found'     => $nonInstalledPlugins,
+					'error_message' => __( 'Some required plugins have either not been installed or activated. Press the "Install all plugins" button below to proceed with the demo installation.' ),
+				],
+				403
+			);
 		} else {
 			wp_send_json_success();
 		}
