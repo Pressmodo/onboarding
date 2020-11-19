@@ -15,6 +15,7 @@ use Laminas\Diactoros\Response\HtmlResponse;
 use Pressmodo\Onboarding\Helper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use WP_Theme;
 
 // Exit if accessed directly.
@@ -92,6 +93,45 @@ class OnboardingController {
 
 		if ( is_wp_error( $uploadedFile ) ) {
 			wp_send_json_error( [ 'error_message' => $uploadedFile->get_error_message() ], 403 );
+		}
+
+		$filesystem = new Filesystem();
+
+		$uploadedFilePath = $uploadedFile->file;
+		$extractTo        = trailingslashit( WP_CONTENT_DIR ) . 'pressmodo-demo';
+
+		// Remove any previous folder if it exists.
+		$filesystem->remove( [ $extractTo ] );
+
+		WP_Filesystem();
+
+		$unzipped = unzip_file( $uploadedFilePath, $extractTo );
+
+		if ( is_wp_error( $unzipped ) ) {
+			wp_send_json_error( [ 'error_message' => $unzipped->get_error_message() ], 403 );
+		}
+
+		// Delete the originally uploaded file.
+		wp_delete_file( $uploadedFilePath );
+
+		// Determine if config json file is available.
+		$configFilePath = trailingslashit( $extractTo ) . 'config.json';
+
+		if ( ! $filesystem->exists( $configFilePath ) ) {
+			$filesystem->remove( [ $extractTo ] );
+			wp_send_json_error( [ 'error_message' => __( 'The uploaded .zip package does not appear to be a Pressmodo Theme demo package. Please try again or contact support.' ) ], 403 );
+		}
+
+		// Verify the demo content belongs to the active theme.
+		$request    = wp_remote_get( content_url( 'pressmodo-demo/config.json' ) );
+		$configData = json_decode( wp_remote_retrieve_body( $request ), true );
+
+		if ( ! is_array( $configData ) || ( ! isset( $configData['theme'] ) ) ) {
+			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking the demo configuration file. Please contact support.' ) ], 403 );
+		}
+
+		if ( $configData['theme'] !== get_option( 'stylesheet' ) ) {
+			wp_send_json_error( [ 'error_message' => __( 'The uploaded demo package does not belong to the currently active theme on this site. Please upload the appropriate demo package.' ) ], 403 );
 		}
 
 		wp_send_json_success();
