@@ -35,15 +35,3 @@ add_action(
 
 	}
 );
-
-add_action(
-	'admin_init',
-	function() {
-
-		$p = ( new \Pressmodo\Onboarding\Installers\PluginInstaller() )->installPlugin( 'wordpress-seo' );
-
-		var_dump( $p );
-		exit;
-
-	}
-);

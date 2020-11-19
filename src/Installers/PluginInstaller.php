@@ -37,38 +37,50 @@ class PluginInstaller {
 	 * Download and install plugin.
 	 *
 	 * @param string $slug
+	 * @param string $source optional custom download url
 	 * @return mixed
 	 */
-	public function installPlugin( $slug ) {
+	public function installPlugin( $slug, $source = false ) {
 
-		$api = plugins_api(
-			'plugin_information',
-			array(
-				'slug'   => $slug,
-				'fields' => array(
-					'short_description' => false,
-					'sections'          => false,
-					'requires'          => false,
-					'rating'            => false,
-					'ratings'           => false,
-					'downloaded'        => false,
-					'last_updated'      => false,
-					'added'             => false,
-					'tags'              => false,
-					'compatibility'     => false,
-					'homepage'          => false,
-					'donate_link'       => false,
-				),
-			)
-		);
+		$config = [
+			'slug'   => $slug,
+			'fields' => array(
+				'short_description' => false,
+				'sections'          => false,
+				'requires'          => false,
+				'rating'            => false,
+				'ratings'           => false,
+				'downloaded'        => false,
+				'last_updated'      => false,
+				'added'             => false,
+				'tags'              => false,
+				'compatibility'     => false,
+				'homepage'          => false,
+				'donate_link'       => false,
+			),
+		];
 
-		if ( is_wp_error( $api ) ) {
-			return $api;
+		$api = plugins_api( 'plugin_information', $config );
+
+		if ( $source ) {
+
+			$skin     = new QuietInstallerSkin( array( 'api' => $api ) );
+			$upgrader = new Plugin_Upgrader( $skin );
+
+			$install = $upgrader->install( $source );
+
+		} else {
+
+			if ( is_wp_error( $api ) ) {
+				return $api;
+			}
+
+			$skin     = new QuietInstallerSkin( array( 'api' => $api ) );
+			$upgrader = new Plugin_Upgrader( $skin );
+
+			$install = $upgrader->install( $api->download_link );
+
 		}
-
-		$skin     = new QuietInstallerSkin( array( 'api' => $api ) );
-		$upgrader = new Plugin_Upgrader( $skin );
-		$install  = $upgrader->install( $api->download_link );
 
 		return $install;
 
