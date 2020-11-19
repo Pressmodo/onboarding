@@ -46,10 +46,8 @@ export default () => {
 			}
 			)
 			.then( function (response) {
-				console.log(response);
-				console.log( 'hehehe' );
-
 				setIsUploading( false )
+				router.replace('/onboarding/plugins')
 			})
 			.catch(function (error) {
 
