@@ -39,6 +39,7 @@
     "@fortawesome/react-fontawesome": "^0.1.12",
     "@wordpress/i18n": "^3.16.0",
     "axios": "^0.21.0",
+    "lodash.has": "^4.5.2",
     "moment": "^2.29.1",
     "qs": "^6.9.4",
     "query-string": "^6.13.7",

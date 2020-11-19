@@ -5,6 +5,7 @@ import PmLogo from '../PressmodoLogo';
 
 import axios from 'axios';
 import qs from 'qs';
+import has from 'lodash.has'
 
 import {
 	EuiPage,
@@ -24,8 +25,13 @@ export default () => {
 	const [ isUploading, setIsUploading ] = useState(false);
 	const [ canUpload, setCanUpload ] = useState(false)
 	const [ processingError, setProcessingError ] = useState( { hasError: false, message: null } )
+	const [ demoPackageFile, setDemoPackageFile ] = useState( null )
 
 	const uploadDemoPackage = ( files ) => {
+
+		setIsUploading( true )
+		setProcessingError( { hasError: false, message: null } )
+
 		let formData = new FormData()
 
 		formData.append( 'file', files[0] )
@@ -41,9 +47,34 @@ export default () => {
 			)
 			.then( function (response) {
 				console.log(response);
+				console.log( 'hehehe' );
+
+				setIsUploading( false )
 			})
 			.catch(function (error) {
+
+				if (error.response) {
+					/*
+					 * The request was made and the server responded with a
+					 * status code that falls out of the range of 2xx
+					 */
+					if ( has( error.response, 'data' ) && has( error.response.data, 'data' ) ) {
+						setProcessingError( { hasError: true, message: error.response.data.data.error_message } )
+					}
+				} else if (error.request) {
+					/*
+					 * The request was made but no response was received, `error.request`
+					 * is an instance of XMLHttpRequest in the browser and an instance
+					 * of http.ClientRequest in Node.js
+					 */
+					setProcessingError( { hasError: true, message: __( 'The request was made but no response was received. Please contact support.' ) } )
+				} else {
+					setProcessingError( { hasError: true, message: error.message } )
+				}
+
+				setIsUploading( false )
 				console.log(error);
+
 			});
 	}
 
@@ -79,6 +110,7 @@ export default () => {
 												{ processingError.message }
 											</p>
 										</EuiCallOut>
+										<br/>
 									</div>
 								}
 
@@ -88,9 +120,10 @@ export default () => {
 									onChange={ (files) => {
 										if ( files.length > 0 ) {
 											setCanUpload( true )
-											uploadDemoPackage( files )
+											setDemoPackageFile( files )
 										} else {
 											setCanUpload( false )
+											setDemoPackageFile( null )
 										}
 									}}
 									fullWidth={ true }
@@ -102,7 +135,7 @@ export default () => {
 						}
 						actions={
 							[
-								<EuiButton color="primary" fill onClick={ () => setIsUploading(true) } isDisabled={ ! canUpload } isLoading={ isUploading }>
+								<EuiButton color="primary" fill onClick={ () => uploadDemoPackage( demoPackageFile ) } isDisabled={ ! canUpload } isLoading={ isUploading }>
 									{ __('Upload demo package') }
 								</EuiButton>,
 								<EuiButtonEmpty color="danger" isDisabled={ isUploading } onClick={ (e) => router.replace('/onboarding') } >{ __( 'Go back' ) }</EuiButtonEmpty>

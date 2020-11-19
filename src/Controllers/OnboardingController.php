@@ -83,10 +83,16 @@ class OnboardingController {
 
 		check_ajax_referer( 'pm_onboarding_upload_nonce', 'nonce' );
 
-		$submittedData = ! empty( $_POST ) && is_array( $_POST ) ? $_POST : [];
+		$submittedData        = ! empty( $_POST ) && is_array( $_POST ) ? $_POST : [];
 		$submittedDemoPackage = isset( $_FILES['file'] ) && ! empty( $_FILES['file'] ) ? $_FILES['file'] : false;
 
-		dd( $submittedFiles );
+		$fileToUpload = Helper::prepareUploadedFiles( $submittedDemoPackage );
+
+		$uploadedFile = Helper::uploadFile( $fileToUpload[0], [ 'file_key' => 'demo_package' ] );
+
+		if ( is_wp_error( $uploadedFile ) ) {
+			wp_send_json_error( [ 'error_message' => $uploadedFile->get_error_message() ], 403 );
+		}
 
 		wp_send_json_success();
 	}
