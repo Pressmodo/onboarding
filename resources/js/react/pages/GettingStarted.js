@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { sprintf, __ } from '@wordpress/i18n';
 import useRouter from '../hooks/useRouter';
 import PmLogo from '../PressmodoLogo';
+import has from 'lodash.has'
 
 import {
 	EuiPage,
@@ -16,6 +17,10 @@ import {
 export default () => {
 
 	const router = useRouter();
+
+	if ( has( router.query, 'page' ) ) {
+		router.replace( '/onboarding/' + router.query.page )
+	}
 
 	return (
 		<EuiPage>

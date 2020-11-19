@@ -64,8 +64,14 @@ class OnboardingController {
 	 * @return void
 	 */
 	public function redirect( ServerRequestInterface $request ) {
-		$url = add_query_arg( [ 'page' => $request->getAttribute( 'path' ) ], untrailingslashit( home_url( 'onboarding' ) ) );
-		wp_safe_redirect( $url );
+
+		if ( ! empty( $request->getAttribute( 'path' ) ) ) {
+			$url = add_query_arg( [ 'page' => $request->getAttribute( 'path' ) ], untrailingslashit( home_url( 'onboarding' ) ) );
+		} else {
+			$url = untrailingslashit( home_url( 'onboarding' ) );
+		}
+
+		wp_safe_redirect( esc_url_raw( $url ) );
 		exit;
 	}
 
