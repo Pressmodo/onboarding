@@ -189,7 +189,7 @@ class OnboardingController {
 			wp_send_json_error(
 				[
 					'not_found'     => $nonInstalledPlugins,
-					'error_message' => __( 'Some required plugins have either not been installed or activated. Press the "Install all plugins" button below to proceed with the demo installation.' ),
+					'error_message' => __( 'Some required plugins have not been installed or activated. Press the "Install all plugins" button below to proceed with the demo installation.' ),
 				],
 				403
 			);

@@ -30,7 +30,7 @@ export default () => {
 	const columns = [
 		{
 			field: 'name',
-			name: __( 'Plugin' ),
+			name: __( 'Required plugin' ),
 		},
 		{
 			field: 'status',
@@ -113,7 +113,7 @@ export default () => {
 
 									{processingError.hasError === true && !isVerifying &&
 										<div>
-											<EuiCallOut title={__('Required plugins missing')} color="warning">
+											<EuiCallOut title={__('Note:')} color="warning">
 												<p>
 													{processingError.message}
 												</p>
