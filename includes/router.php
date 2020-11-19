@@ -33,6 +33,9 @@ $router->map( 'GET', '/onboarding/{path:.*}', '\Pressmodo\Onboarding\Controllers
 $router->map( 'POST', '/onboarding/upload', '\Pressmodo\Onboarding\Controllers\OnboardingController::upload' )
 	->setStrategy( new JsonStrategy( $responseFactory ) );
 
+$router->map( 'POST', '/onboarding/plugins', '\Pressmodo\Onboarding\Controllers\OnboardingController::verifyPlugins' )
+	->setStrategy( new JsonStrategy( $responseFactory ) );
+
 /**
  * After WP has successfully initialized, we dispatch routes requests only when they match.
  */

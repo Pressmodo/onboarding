@@ -4,7 +4,6 @@ import useRouter from '../hooks/useRouter';
 import PmLogo from '../PressmodoLogo';
 
 import axios from 'axios';
-import qs from 'qs';
 import has from 'lodash.has'
 
 import {
@@ -22,31 +21,31 @@ export default () => {
 
 	const router = useRouter();
 
-	const [ isUploading, setIsUploading ] = useState(false);
-	const [ canUpload, setCanUpload ] = useState(false)
-	const [ processingError, setProcessingError ] = useState( { hasError: false, message: null } )
-	const [ demoPackageFile, setDemoPackageFile ] = useState( null )
+	const [isUploading, setIsUploading] = useState(false);
+	const [canUpload, setCanUpload] = useState(false)
+	const [processingError, setProcessingError] = useState({ hasError: false, message: null })
+	const [demoPackageFile, setDemoPackageFile] = useState(null)
 
-	const uploadDemoPackage = ( files ) => {
+	const uploadDemoPackage = (files) => {
 
-		setIsUploading( true )
-		setProcessingError( { hasError: false, message: null } )
+		setIsUploading(true)
+		setProcessingError({ hasError: false, message: null })
 
 		let formData = new FormData()
 
-		formData.append( 'file', files[0] )
-		formData.append( 'action', 'pm_onboarding_upload' )
-		formData.append( 'nonce', pmOnboarding.upload_package_nonce )
+		formData.append('file', files[0])
+		formData.append('action', 'pm_onboarding_upload')
+		formData.append('nonce', pmOnboarding.upload_package_nonce)
 
-		axios.post( pmOnboarding.ajax_url, formData,
+		axios.post(pmOnboarding.ajax_url, formData,
 			{
 				headers: {
 					'Content-Type': 'multipart/form-data'
 				}
 			}
-			)
-			.then( function (response) {
-				setIsUploading( false )
+		)
+			.then(function (response) {
+				setIsUploading(false)
 				router.replace('/onboarding/plugins')
 			})
 			.catch(function (error) {
@@ -56,8 +55,8 @@ export default () => {
 					 * The request was made and the server responded with a
 					 * status code that falls out of the range of 2xx
 					 */
-					if ( has( error.response, 'data' ) && has( error.response.data, 'data' ) ) {
-						setProcessingError( { hasError: true, message: error.response.data.data.error_message } )
+					if (has(error.response, 'data') && has(error.response.data, 'data')) {
+						setProcessingError({ hasError: true, message: error.response.data.data.error_message })
 					}
 				} else if (error.request) {
 					/*
@@ -65,12 +64,12 @@ export default () => {
 					 * is an instance of XMLHttpRequest in the browser and an instance
 					 * of http.ClientRequest in Node.js
 					 */
-					setProcessingError( { hasError: true, message: __( 'The request was made but no response was received. Please contact support.' ) } )
+					setProcessingError({ hasError: true, message: __('The request was made but no response was received. Please contact support.') })
 				} else {
-					setProcessingError( { hasError: true, message: error.message } )
+					setProcessingError({ hasError: true, message: error.message })
 				}
 
-				setIsUploading( false )
+				setIsUploading(false)
 				console.log(error);
 
 			});
@@ -84,59 +83,59 @@ export default () => {
 					<PmLogo></PmLogo>
 
 					<EuiEmptyPrompt
-						title={<h2> { __( 'Upload demo package' ) } </h2>}
+						title={<h2> {__('Upload demo package')} </h2>}
 						body={
 							<Fragment>
 								<p>
-									{ __('Select the .zip package of the demo you wish to import. Please refer to the documentation of the theme for more information.') }
+									{__('Select the .zip package of the demo you wish to import. Please refer to the documentation of the theme for more information.')}
 								</p>
 
-								{ isUploading &&
+								{isUploading &&
 									<div>
 										<EuiCallOut
 											size="m"
-											title={ __( 'Uploading & verifying the demo package. Do not close this page.' ) }
+											title={__('Uploading & verifying the demo package. Do not close this page.')}
 										/>
-										<br/>
+										<br />
 									</div>
 								}
 
-								{ processingError.hasError === true && ! isUploading &&
+								{processingError.hasError === true && !isUploading &&
 									<div>
-										<EuiCallOut title={ __( 'Something went wrong' ) } color="danger">
+										<EuiCallOut title={__('Something went wrong')} color="danger">
 											<p>
-												{ processingError.message }
+												{processingError.message}
 											</p>
 										</EuiCallOut>
-										<br/>
+										<br />
 									</div>
 								}
 
 								<EuiFilePicker
 									id="demo-package-file"
-									initialPromptText={ __( 'Select or drag and drop the demo package file.' ) }
-									onChange={ (files) => {
-										if ( files.length > 0 ) {
-											setCanUpload( true )
-											setDemoPackageFile( files )
+									initialPromptText={__('Select or drag and drop the demo package file.')}
+									onChange={(files) => {
+										if (files.length > 0) {
+											setCanUpload(true)
+											setDemoPackageFile(files)
 										} else {
-											setCanUpload( false )
-											setDemoPackageFile( null )
+											setCanUpload(false)
+											setDemoPackageFile(null)
 										}
 									}}
-									fullWidth={ true }
+									fullWidth={true}
 									display="large"
-									isLoading={ isUploading }
-									aria-label={ __( 'Select or drag and drop the demo package file.' ) }
+									isLoading={isUploading}
+									aria-label={__('Select or drag and drop the demo package file.')}
 								/>
 							</Fragment>
 						}
 						actions={
 							[
-								<EuiButton color="primary" fill onClick={ () => uploadDemoPackage( demoPackageFile ) } isDisabled={ ! canUpload } isLoading={ isUploading }>
-									{ __('Upload demo package') }
+								<EuiButton color="primary" fill onClick={() => uploadDemoPackage(demoPackageFile)} isDisabled={!canUpload} isLoading={isUploading}>
+									{__('Upload demo package')}
 								</EuiButton>,
-								<EuiButtonEmpty color="danger" isDisabled={ isUploading } onClick={ (e) => router.replace('/onboarding') } >{ __( 'Go back' ) }</EuiButtonEmpty>
+								<EuiButtonEmpty color="danger" isDisabled={isUploading} onClick={(e) => router.replace('/onboarding')} >{__('Go back')}</EuiButtonEmpty>
 							]
 						}
 					/>

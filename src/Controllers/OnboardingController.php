@@ -13,6 +13,7 @@ namespace Pressmodo\Onboarding\Controllers;
 
 use Laminas\Diactoros\Response\HtmlResponse;
 use Pressmodo\Onboarding\Helper;
+use Pressmodo\ThemeRequirements\TGMPAHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -54,6 +55,8 @@ class OnboardingController {
 			'theme'                => $this->theme->get( 'Name' ),
 			'ajax_url'             => esc_url( trailingslashit( home_url() ) . 'onboarding/upload' ),
 			'upload_package_nonce' => wp_create_nonce( 'pm_onboarding_upload_nonce' ),
+			'verify_plugins_nonce' => wp_create_nonce( 'pm_onboarding_verifyplugins_nonce' ),
+			'verification_url'     => esc_url( trailingslashit( home_url() ) . 'onboarding/plugins' ),
 		];
 	}
 
@@ -141,8 +144,7 @@ class OnboardingController {
 		}
 
 		// Verify the demo content belongs to the active theme.
-		$request    = wp_remote_get( content_url( 'pressmodo-demo/config.json' ) );
-		$configData = json_decode( wp_remote_retrieve_body( $request ), true );
+		$configData = $this->getDemoConfiguration();
 
 		if ( ! is_array( $configData ) || ( ! isset( $configData['theme'] ) ) ) {
 			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking the demo configuration file. Please contact support.' ) ], 403 );
@@ -153,6 +155,55 @@ class OnboardingController {
 		}
 
 		wp_send_json_success();
+	}
+
+	/**
+	 * Verify that required plugins are installed and activated.
+	 *
+	 * @param ServerRequestInterface $request
+	 * @return void
+	 */
+	public function verifyPlugins( ServerRequestInterface $request ) {
+
+		check_ajax_referer( 'pm_onboarding_verifyplugins_nonce', 'nonce' );
+
+		$configData = $this->getDemoConfiguration();
+
+		if ( ! is_array( $configData ) || ( ! isset( $configData['active_plugins'] ) ) ) {
+			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking the required plugins for the selected demo. Please contact support.' ) ], 403 );
+		}
+
+		$requiredPlugins = $configData['active_plugins'];
+
+		$tgmpa = TGMPAHelper::getInstance();
+
+		$nonInstalledPlugins = [];
+
+		foreach ( $requiredPlugins as $plugin ) {
+			if ( ! $tgmpa->is_plugin_installed( $plugin ) || ! $tgmpa->is_plugin_active( $plugin ) ) {
+				$nonInstalledPlugins[] = $plugin;
+			}
+		}
+
+		if ( ! empty( $nonInstalledPlugins ) ) {
+			wp_send_json_error( [ 'not_found' => $nonInstalledPlugins, 'error_message' => __( 'Some required plugins have either not been installed or activated. Press the "Install all plugins" button below to proceed with the demo installation.' ) ], 403 );
+		} else {
+			wp_send_json_success();
+		}
+	}
+
+	/**
+	 * Get the demo config file data.
+	 *
+	 * @return array
+	 */
+	private function getDemoConfiguration() {
+
+		$request    = wp_remote_get( content_url( 'pressmodo-demo/config.json' ) );
+		$configData = json_decode( wp_remote_retrieve_body( $request ), true );
+
+		return $configData;
+
 	}
 
 }

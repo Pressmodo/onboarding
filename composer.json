@@ -1,30 +1,28 @@
 {
-	"name"        : "pressmodo/onboarding",
-	"description" : "",
-	"keywords"    : [ "wordpress", "pressmodo", "sematico" ],
-	"homepage"    : "https://pressmodo.com",
-	"license"     : "GPL-3.0-or-later",
-	"authors"     : [
-		{
-			"name"     : "Alessandro Tesoro",
-			"email"    : "hello@sematico.com",
-			"homepage" : "https://sematico.com",
-			"role"     : "Founder & MD"
-		}
-	],
-	"support"     : {
-		"issues" : "https://github.com/pressmodo/onboarding/issues"
+	"name": "pressmodo/onboarding",
+	"description": "",
+	"keywords": ["wordpress", "pressmodo", "sematico"],
+	"homepage": "https://pressmodo.com",
+	"license": "GPL-3.0-or-later",
+	"authors": [{
+		"name": "Alessandro Tesoro",
+		"email": "hello@sematico.com",
+		"homepage": "https://sematico.com",
+		"role": "Founder & MD"
+	}],
+	"support": {
+		"issues": "https://github.com/pressmodo/onboarding/issues"
 	},
-	"autoload"    : {
-		"psr-4" : {
-			"Pressmodo\\Onboarding\\" : "src"
+	"autoload": {
+		"psr-4": {
+			"Pressmodo\\Onboarding\\": "src"
 		}
 	},
 	"autoload-dev": {
-        "psr-4": {
-            "Pressmodo\\Onboarding\\Tests\\": "tests"
-        }
-    },
+		"psr-4": {
+			"Pressmodo\\Onboarding\\Tests\\": "tests"
+		}
+	},
 	"require": {
 		"php": ">=7.2",
 		"laminas/laminas-diactoros": "^2.4",
@@ -36,6 +34,7 @@
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
 		"phpunit/phpunit": "^7.0",
+		"pressmodo/theme-requirements": "dev-master",
 		"symfony/var-dumper": "^5.1",
 		"wp-coding-standards/wpcs": "dev-master"
 	},
@@ -43,12 +42,16 @@
 		"bin-dir": "bin",
 		"sort-packages": true,
 		"preferred-install": {
-            "*": "dist"
-        }
+			"*": "dist"
+		}
 	},
+	"repositories": [{
+		"type": "vcs",
+		"url": "https://github.com/pressmodo/theme-requirements.git"
+	}],
 	"scripts": {
-        "test": "bin/phpunit"
-    },
+		"test": "bin/phpunit"
+	},
 	"minimum-stability": "dev",
 	"prefer-stable": true
 }
