@@ -28,6 +28,8 @@ $router = new League\Route\Router();
 $responseFactory = new ResponseFactory();
 
 $router->map( 'GET', '/onboarding', '\Pressmodo\Onboarding\Controllers\OnboardingController::view' );
+$router->map( 'GET', '/onboarding/{path:.*}', '\Pressmodo\Onboarding\Controllers\OnboardingController::redirect' );
+
 $router->map( 'POST', '/onboarding/upload', '\Pressmodo\Onboarding\Controllers\OnboardingController::upload' )
 	->setStrategy( new JsonStrategy( $responseFactory ) );
 

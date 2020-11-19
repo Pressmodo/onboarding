@@ -58,6 +58,18 @@ class OnboardingController {
 	}
 
 	/**
+	 * Redirect back to the onboarding homepage when subroutes are accessed directly.
+	 *
+	 * @param ServerRequestInterface $request
+	 * @return void
+	 */
+	public function redirect( ServerRequestInterface $request ) {
+		$url = add_query_arg( [ 'page' => $request->getAttribute( 'path' ) ], untrailingslashit( home_url( 'onboarding' ) ) );
+		wp_safe_redirect( $url );
+		exit;
+	}
+
+	/**
 	 * Display the react app when viewing the onboarding page.
 	 *
 	 * @param ServerRequestInterface $request
