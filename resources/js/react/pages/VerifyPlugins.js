@@ -28,6 +28,7 @@ export default () => {
 	const [ processingError, setProcessingError ] = useState( { hasError: false, message: null } )
 	const [ requiresInstall, setRequiresInstall ] = useState( true )
 	const [ requiredPlugins, setRequiredPlugins ] = useState( [] )
+	const [ currentlyInstalling, setCurrentlyInstalling ] = useState( null )
 
 	const columns = [
 		{
@@ -37,9 +38,13 @@ export default () => {
 		{
 			field: 'status',
 			name: __( 'Status' ),
-			render: () => (
-				<EuiBadge>{ __( 'Not installed' ) }</EuiBadge>
-			),
+			render: ( item, plugin ) => {
+				if ( currentlyInstalling === plugin.slug ) {
+					return <EuiLoadingSpinner size="m" />
+				} else {
+					return <EuiBadge>{ __( 'Not installed' ) }</EuiBadge>
+				}
+			},
 		},
 	];
 
@@ -150,7 +155,7 @@ export default () => {
 										</div>
 									}
 
-									{ requiresInstall &&
+									{ requiresInstall && requiredPlugins.length > 0 &&
 										<EuiBasicTable
 											items={requiredPlugins}
 											columns={columns}
