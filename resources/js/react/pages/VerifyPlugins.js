@@ -17,32 +17,31 @@ import {
 	EuiButtonEmpty,
 	EuiLoadingSpinner,
 	EuiBasicTable,
+	EuiBadge,
 } from '@elastic/eui';
 
 export default () => {
 
 	const router = useRouter();
 
-	const [isVerifying, setIsVerifying] = useState(true)
-	const [processingError, setProcessingError] = useState({ hasError: false, message: null })
-	const [requiresInstall, setRequiresInstall] = useState(true)
+	const [ isVerifying, setIsVerifying ] = useState(true)
+	const [ processingError, setProcessingError ] = useState( { hasError: false, message: null } )
+	const [ requiresInstall, setRequiresInstall ] = useState( true )
+	const [ requiredPlugins, setRequiredPlugins ] = useState( [] )
 
 	const columns = [
 		{
-			field: 'name',
+			field: 'Name',
 			name: __( 'Required plugin' ),
 		},
 		{
 			field: 'status',
 			name: __( 'Status' ),
+			render: () => (
+				<EuiBadge>{ __( 'Not installed' ) }</EuiBadge>
+			),
 		},
 	];
-
-	const items = [
-		{
-			name: 'test 123',
-		}
-	]
 
 	/**
 	 * Verify required plugins are all installed or activated.
@@ -65,13 +64,19 @@ export default () => {
 				);
 			})
 			.catch(function (error) {
+
+				setIsVerifying(false)
+
 				if (error.response) {
 					/*
 					 * The request was made and the server responded with a
 					 * status code that falls out of the range of 2xx
 					 */
 					if (has(error.response, 'data') && has(error.response.data, 'data')) {
+						setRequiresInstall(true)
 						setProcessingError({ hasError: true, message: error.response.data.data.error_message })
+						console.log( error.response.data.data.not_found )
+						setRequiredPlugins( error.response.data.data.not_found )
 					}
 				} else if (error.request) {
 					/*
@@ -83,8 +88,6 @@ export default () => {
 				} else {
 					setProcessingError({ hasError: true, message: error.message })
 				}
-				setRequiresInstall(true)
-				setIsVerifying(false)
 			});
 
 	}
@@ -93,10 +96,10 @@ export default () => {
 	 * Trigger on page load.
 	 */
 	useEffect(() => {
-
-		requestPluginsVerification()
-
-	}, [])
+		if ( requiredPlugins.length === 0 ) {
+			requestPluginsVerification()
+		}
+	}, [] )
 
 	return (
 		<EuiPage>
@@ -119,7 +122,7 @@ export default () => {
 
 									{processingError.hasError === true && !isVerifying &&
 										<div>
-											<EuiCallOut title={__('Note:')} color="warning">
+											<EuiCallOut color="warning">
 												<p>
 													{processingError.message}
 												</p>
@@ -149,8 +152,7 @@ export default () => {
 
 									{ requiresInstall &&
 										<EuiBasicTable
-											items={items}
-											rowHeader="github"
+											items={requiredPlugins}
 											columns={columns}
 										/>
 									}

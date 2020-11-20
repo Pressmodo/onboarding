@@ -179,7 +179,7 @@ class OnboardingController {
 			wp_send_json_error(
 				[
 					'not_found'     => $nonInstalledPlugins,
-					'error_message' => __( 'Some required plugins have not been installed or activated. Press the "Install all plugins" button below to proceed with the demo installation.' ),
+					'error_message' => __( 'Some required plugins have not been installed or activated. Press the button below to install all the required plugins.' ),
 				],
 				403
 			);
@@ -219,7 +219,8 @@ class OnboardingController {
 
 		foreach ( $pluginsRequired as $plugin ) {
 			if ( ! \is_plugin_active( $plugin ) ) {
-				$missingPlugins[ $plugin ] = $configData['plugins'][ $plugin ];
+				$pluginInfo       = $configData['plugins'][ $plugin ];
+				$missingPlugins[] = array_merge( $pluginInfo, [ 'slug' => $plugin ] );
 			}
 		}
 
