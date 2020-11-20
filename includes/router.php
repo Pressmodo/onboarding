@@ -40,6 +40,9 @@ $router->map( 'POST', '/onboarding/plugins', '\Pressmodo\Onboarding\Controllers\
 $router->map( 'POST', '/onboarding/plugin', '\Pressmodo\Onboarding\Controllers\OnboardingController::getNextRequiredPlugin' )
 	->setStrategy( $strategy );
 
+$router->map( 'POST', '/onboarding/plugin/install', '\Pressmodo\Onboarding\Controllers\OnboardingController::installPlugin' )
+	->setStrategy( $strategy );
+
 /**
  * After WP has successfully initialized, we dispatch routes requests only when they match.
  */

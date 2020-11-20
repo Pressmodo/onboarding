@@ -12,5 +12,14 @@
 namespace Pressmodo\Onboarding\Installers;
 
 class QuietInstallerSkin extends \WP_Upgrader_Skin {
+
+	public function header() {
+
+	}
+
+	public function footer() {
+
+	}
+
 	public function feedback( $string, ...$args ) {}
 }

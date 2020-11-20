@@ -13,6 +13,7 @@ namespace Pressmodo\Onboarding\Controllers;
 
 use Laminas\Diactoros\Response\HtmlResponse;
 use Pressmodo\Onboarding\Helper;
+use Pressmodo\Onboarding\Installers\PluginInstaller;
 use Pressmodo\ThemeRequirements\TGMPAHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -59,6 +60,8 @@ class OnboardingController {
 			'verification_url'            => esc_url( trailingslashit( home_url() ) . 'onboarding/plugins' ),
 			'check_required_plugin_nonce' => wp_create_nonce( 'pm_onboarding_check_required_plugin_nonce' ),
 			'check_plugin_install_url'    => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin' ),
+			'install_plugin_nonce' => wp_create_nonce( 'pm_onboarding_install_plugin_nonce' ),
+			'install_plugin_url'    => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin/install' ),
 		];
 	}
 
@@ -214,7 +217,6 @@ class OnboardingController {
 
 		$missingPlugins = [];
 
-		$tgmpa           = TGMPAHelper::getInstance();
 		$pluginsRequired = $configData['active_plugins'];
 
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -256,6 +258,35 @@ class OnboardingController {
 		}
 
 		wp_send_json_success();
+
+	}
+
+	/**
+	 * Programmatically install a plugin via ajax.
+	 *
+	 * @param ServerRequestInterface $request
+	 * @return void
+	 */
+	public function installPlugin( ServerRequestInterface $request ) {
+
+		check_ajax_referer( 'pm_onboarding_install_plugin_nonce', 'nonce' );
+
+		$plugin = isset( $_POST['plugin'] ) && ! empty( $_POST['plugin'] ) ? sanitize_text_field( $_POST['plugin'] ) : false;
+		$pluginSlug = strtok( $plugin, '/' );
+
+		$install = ( new PluginInstaller() )->installPlugin( $pluginSlug );
+
+		if ( is_wp_error( $install ) ) {
+			wp_send_json_error( [ 'error_message' => $install->get_error_message() ], 403 );
+		}
+
+		$activation = activate_plugin( $plugin );
+
+		if ( is_wp_error( $activation ) ) {
+			wp_send_json_error( [ 'error_message' => $activation->get_error_message() ], 403 );
+		}
+
+		wp_send_json_success( [ 'activated' => $plugin ] );
 
 	}
 

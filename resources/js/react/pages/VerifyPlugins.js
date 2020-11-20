@@ -110,8 +110,40 @@ export default () => {
 	 * @param {string} slug
 	 */
 	const requestPluginInstall = ( slug ) => {
+
 		setTableLoading( true )
-		setInstalledPlugins( [ ...installedPlugins, slug ] )
+
+		let formData = new FormData()
+
+		formData.append( 'plugin', slug )
+		formData.append( 'nonce', pmOnboarding.install_plugin_nonce )
+
+		axios.post(pmOnboarding.install_plugin_url, formData)
+			.then(function (response) {
+				if ( has(response, 'data') ) {
+					console.log( response.data.data.activated )
+					setInstalledPlugins( [ ...installedPlugins, response.data.data.activated ] )
+
+					setTimeout(
+						() => checkForMissingPlugin(),
+						3000
+					);
+				}
+			})
+			.catch(function (error) {
+				console.error( error )
+
+				setTableLoading( false )
+				setRequiresInstall( true )
+				setCurrentlyInstalling( null )
+
+				if ( error.response && has(error.response, 'data') ) {
+					setInstallError( { hasError: true, message: __( 'Something went wrong while activating the plugin. Please contact support.' ) } )
+				} else {
+					setInstallError({ hasError: true, message: error.message })
+				}
+			});
+
 	}
 
 	/**
@@ -132,9 +164,12 @@ export default () => {
 				setIsVerifying(false)
 				setRequiresInstall( false )
 
+				setInstallError( { hasError: false, message: null } )
+				setProcessingError( { hasError: false, message: null } )
+
 				setTimeout(
 					() => router.replace( '/onboarding/media' ),
-					3000
+					4000
 				);
 			})
 			.catch(function (error) {
@@ -250,7 +285,7 @@ export default () => {
 									<EuiButton color="primary" fill isDisabled={! requiresInstall || isVerifying } isLoading={ tableLoading } onClick={ (e) => checkForMissingPlugin() }>
 										{__('Install all plugins')}
 									</EuiButton>,
-									<EuiButtonEmpty color="danger" isDisabled={ isVerifying || tableLoading } onClick={(e) => router.replace('/onboarding/upload')} >{__('Go back')}</EuiButtonEmpty>
+									<EuiButtonEmpty color="danger" isDisabled={ isVerifying || tableLoading || ! requiresInstall } onClick={(e) => router.replace('/onboarding/upload')} >{__('Go back')}</EuiButtonEmpty>
 								]
 							}
 						/>
