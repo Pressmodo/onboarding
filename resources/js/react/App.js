@@ -2,6 +2,7 @@ import Header from './Header'
 import GettingStartedPage from './pages/GettingStarted'
 import UploadPackage from './pages/UploadPackage'
 import VerifyPlugins from './pages/VerifyPlugins'
+import ImportMedia from './pages/ImportMedia'
 
 import {
 	BrowserRouter as Router,
@@ -13,6 +14,9 @@ function OnboardingApp() {
 	return (
 		<div className="pm-onboarding-page-wrapper">
 			<Switch>
+				<Route path="/onboarding/media">
+					<ImportMedia />
+				</Route>
 				<Route path="/onboarding/plugins">
 					<VerifyPlugins></VerifyPlugins>
 				</Route>

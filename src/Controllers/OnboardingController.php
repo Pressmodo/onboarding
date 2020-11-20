@@ -173,17 +173,7 @@ class OnboardingController {
 			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking the required plugins for the selected demo. Please contact support.' ) ], 403 );
 		}
 
-		$requiredPlugins = $configData['active_plugins'];
-
-		$tgmpa = TGMPAHelper::getInstance();
-
-		$nonInstalledPlugins = [];
-
-		foreach ( $requiredPlugins as $plugin ) {
-			if ( ! $tgmpa->is_plugin_installed( $plugin ) || ! $tgmpa->is_plugin_active( $plugin ) ) {
-				$nonInstalledPlugins[] = $plugin;
-			}
-		}
+		$nonInstalledPlugins = $this->getMissingPluginsConfiguration( $configData );
 
 		if ( ! empty( $nonInstalledPlugins ) ) {
 			wp_send_json_error(
@@ -209,6 +199,31 @@ class OnboardingController {
 		$configData = json_decode( wp_remote_retrieve_body( $request ), true );
 
 		return $configData;
+
+	}
+
+	/**
+	 * Get list of plugins that are either not active or installed.
+	 *
+	 * @param array $configData demo configuration
+	 * @return array
+	 */
+	private function getMissingPluginsConfiguration( $configData ) {
+
+		$missingPlugins = [];
+
+		$tgmpa           = TGMPAHelper::getInstance();
+		$pluginsRequired = $configData['active_plugins'];
+
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		foreach ( $pluginsRequired as $plugin ) {
+			if ( ! \is_plugin_active( $plugin ) ) {
+				$missingPlugins[ $plugin ] = $configData['plugins'][ $plugin ];
+			}
+		}
+
+		return $missingPlugins;
 
 	}
 

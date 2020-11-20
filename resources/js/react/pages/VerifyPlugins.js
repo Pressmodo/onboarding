@@ -25,7 +25,7 @@ export default () => {
 
 	const [isVerifying, setIsVerifying] = useState(true)
 	const [processingError, setProcessingError] = useState({ hasError: false, message: null })
-	const [requiresInstall, setRequiresInstall] = useState(false)
+	const [requiresInstall, setRequiresInstall] = useState(true)
 
 	const columns = [
 		{
@@ -57,6 +57,12 @@ export default () => {
 		axios.post(pmOnboarding.verification_url, formData)
 			.then(function (response) {
 				setIsVerifying(false)
+				setRequiresInstall( false )
+
+				setTimeout(
+					() => router.replace( '/onboarding/media' ),
+					3000
+				);
 			})
 			.catch(function (error) {
 				if (error.response) {
@@ -122,6 +128,18 @@ export default () => {
 										</div>
 									}
 
+									{ processingError.hasError !== true && !isVerifying && ! requiresInstall &&
+										<div>
+											<EuiCallOut color="success">
+												<p>
+													{ __( 'All required plugins are installed and activated. Proceeding to next step...' ) }
+												</p>
+											</EuiCallOut>
+											<br />
+											<EuiLoadingSpinner size="xl" />
+										</div>
+									}
+
 									{isVerifying &&
 										<div>
 											<br />
@@ -129,11 +147,13 @@ export default () => {
 										</div>
 									}
 
-									<EuiBasicTable
-										items={items}
-										rowHeader="github"
-										columns={columns}
-									/>
+									{ requiresInstall &&
+										<EuiBasicTable
+											items={items}
+											rowHeader="github"
+											columns={columns}
+										/>
+									}
 								</Fragment>
 							}
 							actions={
