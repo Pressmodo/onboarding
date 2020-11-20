@@ -247,7 +247,7 @@ export default () => {
 							}
 							actions={
 								[
-									<EuiButton color="primary" fill isDisabled={!requiresInstall} isLoading={ tableLoading } onClick={ (e) => checkForMissingPlugin() }>
+									<EuiButton color="primary" fill isDisabled={! requiresInstall || isVerifying } isLoading={ tableLoading } onClick={ (e) => checkForMissingPlugin() }>
 										{__('Install all plugins')}
 									</EuiButton>,
 									<EuiButtonEmpty color="danger" isDisabled={ isVerifying || tableLoading } onClick={(e) => router.replace('/onboarding/upload')} >{__('Go back')}</EuiButtonEmpty>
