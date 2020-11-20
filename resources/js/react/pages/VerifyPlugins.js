@@ -29,6 +29,7 @@ export default () => {
 	const [ requiresInstall, setRequiresInstall ] = useState( true )
 	const [ requiredPlugins, setRequiredPlugins ] = useState( [] )
 	const [ currentlyInstalling, setCurrentlyInstalling ] = useState( null )
+	const [ tableLoading, setTableLoading ] = useState( false )
 
 	const columns = [
 		{
@@ -97,6 +98,16 @@ export default () => {
 
 	}
 
+	const requestPluginInstall = ( slug ) => {
+
+	}
+
+	const startPluginsInstall = () => {
+
+		setTableLoading( true )
+
+	}
+
 	/**
 	 * Trigger on page load.
 	 */
@@ -155,20 +166,32 @@ export default () => {
 										</div>
 									}
 
+									{ tableLoading &&
+										<div>
+											<EuiCallOut>
+												<p>
+													{ __( 'Please wait, plugins installation is in progress.' ) }
+												</p>
+											</EuiCallOut>
+											<br />
+										</div>
+									}
+
 									{ requiresInstall && requiredPlugins.length > 0 &&
 										<EuiBasicTable
 											items={requiredPlugins}
 											columns={columns}
+											loading={ tableLoading }
 										/>
 									}
 								</Fragment>
 							}
 							actions={
 								[
-									<EuiButton color="primary" fill isDisabled={!requiresInstall}>
+									<EuiButton color="primary" fill isDisabled={!requiresInstall} isLoading={ tableLoading } onClick={ (e) => startPluginsInstall() }>
 										{__('Install all plugins')}
 									</EuiButton>,
-									<EuiButtonEmpty color="danger" isDisabled={isVerifying} onClick={(e) => router.replace('/onboarding/upload')} >{__('Go back')}</EuiButtonEmpty>
+									<EuiButtonEmpty color="danger" isDisabled={ isVerifying || tableLoading } onClick={(e) => router.replace('/onboarding/upload')} >{__('Go back')}</EuiButtonEmpty>
 								]
 							}
 						/>
