@@ -48,15 +48,17 @@ class OnboardingController {
 	 */
 	private function getJsData() {
 		return [
-			'admin_url'            => esc_url( get_admin_url() ),
-			'plugin_url'           => esc_url( PM_ONBOARDING_PLUGIN_URL ),
-			'documentation_url'    => Helper::getDocumentationUrl(),
-			'support_url'          => 'https://support.pressmodo.com',
-			'theme'                => $this->theme->get( 'Name' ),
-			'ajax_url'             => esc_url( trailingslashit( home_url() ) . 'onboarding/upload' ),
-			'upload_package_nonce' => wp_create_nonce( 'pm_onboarding_upload_nonce' ),
-			'verify_plugins_nonce' => wp_create_nonce( 'pm_onboarding_verifyplugins_nonce' ),
-			'verification_url'     => esc_url( trailingslashit( home_url() ) . 'onboarding/plugins' ),
+			'admin_url'                   => esc_url( get_admin_url() ),
+			'plugin_url'                  => esc_url( PM_ONBOARDING_PLUGIN_URL ),
+			'documentation_url'           => Helper::getDocumentationUrl(),
+			'support_url'                 => 'https://support.pressmodo.com',
+			'theme'                       => $this->theme->get( 'Name' ),
+			'ajax_url'                    => esc_url( trailingslashit( home_url() ) . 'onboarding/upload' ),
+			'upload_package_nonce'        => wp_create_nonce( 'pm_onboarding_upload_nonce' ),
+			'verify_plugins_nonce'        => wp_create_nonce( 'pm_onboarding_verifyplugins_nonce' ),
+			'verification_url'            => esc_url( trailingslashit( home_url() ) . 'onboarding/plugins' ),
+			'check_required_plugin_nonce' => wp_create_nonce( 'pm_onboarding_check_required_plugin_nonce' ),
+			'check_plugin_install_url'    => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin' ),
 		];
 	}
 
@@ -225,6 +227,35 @@ class OnboardingController {
 		}
 
 		return $missingPlugins;
+
+	}
+
+	/**
+	 * Get the next plugin on the required list.
+	 *
+	 * @return void
+	 */
+	public function getNextRequiredPlugin() {
+
+		check_ajax_referer( 'pm_onboarding_check_required_plugin_nonce', 'nonce' );
+
+		$configData = $this->getDemoConfiguration();
+
+		if ( ! is_array( $configData ) || ( ! isset( $configData['active_plugins'] ) ) ) {
+			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking for the next required plugin.' ) ], 403 );
+		}
+
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		$pluginsRequired = $configData['active_plugins'];
+
+		foreach ( $pluginsRequired as $plugin ) {
+			if ( ! \is_plugin_active( $plugin ) ) {
+				wp_send_json_error( [ 'slug' => $plugin ], 403 );
+			}
+		}
+
+		wp_send_json_success();
 
 	}
 

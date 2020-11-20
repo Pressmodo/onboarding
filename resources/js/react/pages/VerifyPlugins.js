@@ -26,10 +26,14 @@ export default () => {
 
 	const [ isVerifying, setIsVerifying ] = useState(true)
 	const [ processingError, setProcessingError ] = useState( { hasError: false, message: null } )
+	const [ installError, setInstallError ] = useState( { hasError: false, message: null } )
 	const [ requiresInstall, setRequiresInstall ] = useState( true )
 	const [ requiredPlugins, setRequiredPlugins ] = useState( [] )
 	const [ currentlyInstalling, setCurrentlyInstalling ] = useState( null )
 	const [ tableLoading, setTableLoading ] = useState( false )
+	const [ installedPlugins, setInstalledPlugins ] = useState( [] )
+
+	let installed = [];
 
 	const columns = [
 		{
@@ -40,8 +44,10 @@ export default () => {
 			field: 'status',
 			name: __( 'Status' ),
 			render: ( item, plugin ) => {
-				if ( currentlyInstalling === plugin.slug ) {
+				if ( currentlyInstalling === plugin.slug && ! installedPlugins.includes( plugin.slug ) ) {
 					return <EuiLoadingSpinner size="m" />
+				} else if ( installedPlugins.includes( plugin.slug ) ) {
+					return <EuiBadge color="#4CAF50">{ __( 'Installed' ) }</EuiBadge>
 				} else {
 					return <EuiBadge>{ __( 'Not installed' ) }</EuiBadge>
 				}
@@ -98,14 +104,56 @@ export default () => {
 
 	}
 
+	/**
+	 * Request installation of a plugin.
+	 *
+	 * @param {string} slug
+	 */
 	const requestPluginInstall = ( slug ) => {
-
+		setTableLoading( true )
+		setInstalledPlugins( [ ...installedPlugins, slug ] )
 	}
 
-	const startPluginsInstall = () => {
+	/**
+	 * Ping the database to check for any required plugin that has not been installed.
+	 * If any is found, trigger another ajax request.
+	 */
+	const checkForMissingPlugin = () => {
 
 		setTableLoading( true )
 
+		let formData = new FormData()
+
+		formData.append('nonce', pmOnboarding.check_required_plugin_nonce )
+
+		axios.post(pmOnboarding.check_plugin_install_url, formData)
+			.then(function (response) {
+				setTableLoading( false )
+				setIsVerifying(false)
+				setRequiresInstall( false )
+
+				setTimeout(
+					() => router.replace( '/onboarding/media' ),
+					3000
+				);
+			})
+			.catch(function (error) {
+
+				setTableLoading( false )
+
+				if ( error.response && has(error.response, 'data') && has(error.response.data, 'data') && has(error.response.data.data, 'slug') ) {
+					/*
+					 * Check if a plugin is found, if it is, send a request to install it.
+					 */
+					if ( has(error.response, 'data') && has(error.response.data, 'data') && has(error.response.data.data, 'slug')  ) {
+						setCurrentlyInstalling( error.response.data.data.slug )
+						requestPluginInstall( error.response.data.data.slug )
+					}
+				} else {
+					setInstallError({ hasError: true, message: error.message })
+				}
+
+			});
 	}
 
 	/**
@@ -136,11 +184,22 @@ export default () => {
 										</div>
 									}
 
-									{processingError.hasError === true && !isVerifying &&
+									{processingError.hasError === true && !isVerifying && ! tableLoading  &&
 										<div>
 											<EuiCallOut color="warning">
 												<p>
 													{processingError.message}
+												</p>
+											</EuiCallOut>
+											<br />
+										</div>
+									}
+
+									{ installError.hasError === true && ! tableLoading && ! isVerifying &&
+										<div>
+											<EuiCallOut color="danger">
+												<p>
+													{ installError.message }
 												</p>
 											</EuiCallOut>
 											<br />
@@ -188,7 +247,7 @@ export default () => {
 							}
 							actions={
 								[
-									<EuiButton color="primary" fill isDisabled={!requiresInstall} isLoading={ tableLoading } onClick={ (e) => startPluginsInstall() }>
+									<EuiButton color="primary" fill isDisabled={!requiresInstall} isLoading={ tableLoading } onClick={ (e) => checkForMissingPlugin() }>
 										{__('Install all plugins')}
 									</EuiButton>,
 									<EuiButtonEmpty color="danger" isDisabled={ isVerifying || tableLoading } onClick={(e) => router.replace('/onboarding/upload')} >{__('Go back')}</EuiButtonEmpty>

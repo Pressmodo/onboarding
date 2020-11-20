@@ -26,15 +26,19 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
 $router = new League\Route\Router();
 
 $responseFactory = new ResponseFactory();
+$strategy = new JsonStrategy( $responseFactory );
 
 $router->map( 'GET', '/onboarding', '\Pressmodo\Onboarding\Controllers\OnboardingController::view' );
 $router->map( 'GET', '/onboarding/{path:.*}', '\Pressmodo\Onboarding\Controllers\OnboardingController::redirect' );
 
 $router->map( 'POST', '/onboarding/upload', '\Pressmodo\Onboarding\Controllers\OnboardingController::upload' )
-	->setStrategy( new JsonStrategy( $responseFactory ) );
+	->setStrategy( $strategy );
 
 $router->map( 'POST', '/onboarding/plugins', '\Pressmodo\Onboarding\Controllers\OnboardingController::verifyPlugins' )
-	->setStrategy( new JsonStrategy( $responseFactory ) );
+	->setStrategy( $strategy );
+
+$router->map( 'POST', '/onboarding/plugin', '\Pressmodo\Onboarding\Controllers\OnboardingController::getNextRequiredPlugin' )
+	->setStrategy( $strategy );
 
 /**
  * After WP has successfully initialized, we dispatch routes requests only when they match.
