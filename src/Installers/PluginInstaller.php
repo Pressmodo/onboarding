@@ -12,6 +12,7 @@
 namespace Pressmodo\Onboarding\Installers;
 
 use Plugin_Upgrader;
+use Pressmodo\ThemeRequirements\TGMPAHelper;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -37,10 +38,12 @@ class PluginInstaller {
 	 * Download and install plugin.
 	 *
 	 * @param string $slug
-	 * @param string $source optional custom download url
 	 * @return mixed
 	 */
-	public function installPlugin( $slug, $source = false ) {
+	public function installPlugin( $slug ) {
+
+		$tgmpa = TGMPAHelper::getInstance();
+		$sourceType = $tgmpa->plugins[ $slug ]['source_type'];
 
 		$config = [
 			'slug'   => $slug,
@@ -62,24 +65,16 @@ class PluginInstaller {
 
 		$api = plugins_api( 'plugin_information', $config );
 
-		if ( $source ) {
+		$skin     = new QuietInstallerSkin( array( 'api' => $api ) );
+		$upgrader = new Plugin_Upgrader( $skin );
 
-			$skin     = new QuietInstallerSkin( array( 'api' => $api ) );
-			$upgrader = new Plugin_Upgrader( $skin );
-
-			$install = $upgrader->install( $source );
-
-		} else {
-
+		if ( $sourceType === 'repo' ) {
 			if ( is_wp_error( $api ) ) {
 				return $api;
 			}
-
-			$skin     = new QuietInstallerSkin( array( 'api' => $api ) );
-			$upgrader = new Plugin_Upgrader( $skin );
-
 			$install = $upgrader->install( $api->download_link );
-
+		} else {
+			$install = $upgrader->install( $tgmpa->get_download_url( $slug ) );
 		}
 
 		return $install;
