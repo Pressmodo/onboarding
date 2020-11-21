@@ -59,8 +59,8 @@ class OnboardingController {
 			'verification_url'            => esc_url( trailingslashit( home_url() ) . 'onboarding/plugins' ),
 			'check_required_plugin_nonce' => wp_create_nonce( 'pm_onboarding_check_required_plugin_nonce' ),
 			'check_plugin_install_url'    => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin' ),
-			'install_plugin_nonce' => wp_create_nonce( 'pm_onboarding_install_plugin_nonce' ),
-			'install_plugin_url'    => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin/install' ),
+			'install_plugin_nonce'        => wp_create_nonce( 'pm_onboarding_install_plugin_nonce' ),
+			'install_plugin_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin/install' ),
 		];
 	}
 
@@ -270,7 +270,7 @@ class OnboardingController {
 
 		check_ajax_referer( 'pm_onboarding_install_plugin_nonce', 'nonce' );
 
-		$plugin = isset( $_POST['plugin'] ) && ! empty( $_POST['plugin'] ) ? sanitize_text_field( $_POST['plugin'] ) : false;
+		$plugin     = isset( $_POST['plugin'] ) && ! empty( $_POST['plugin'] ) ? sanitize_text_field( $_POST['plugin'] ) : false;
 		$pluginSlug = strtok( $plugin, '/' );
 
 		$install = ( new PluginInstaller() )->installPlugin( $pluginSlug );

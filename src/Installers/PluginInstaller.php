@@ -42,7 +42,7 @@ class PluginInstaller {
 	 */
 	public function installPlugin( $slug ) {
 
-		$tgmpa = TGMPAHelper::getInstance();
+		$tgmpa      = TGMPAHelper::getInstance();
 		$sourceType = $tgmpa->plugins[ $slug ]['source_type'];
 
 		$config = [

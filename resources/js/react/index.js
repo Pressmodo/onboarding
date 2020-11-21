@@ -6,8 +6,8 @@ import '@elastic/eui/dist/eui_theme_light.css';
 import '../../scss/react-app.scss';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
+	document.getElementById('root')
 );

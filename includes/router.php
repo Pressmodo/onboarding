@@ -26,7 +26,7 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
 $router = new League\Route\Router();
 
 $responseFactory = new ResponseFactory();
-$strategy = new JsonStrategy( $responseFactory );
+$strategy        = new JsonStrategy( $responseFactory );
 
 $router->map( 'GET', '/onboarding', '\Pressmodo\Onboarding\Controllers\OnboardingController::view' );
 $router->map( 'GET', '/onboarding/{path:.*}', '\Pressmodo\Onboarding\Controllers\OnboardingController::redirect' );
