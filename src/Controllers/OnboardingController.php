@@ -16,6 +16,7 @@ use Pressmodo\Onboarding\Helper;
 use Pressmodo\Onboarding\Installers\PluginInstaller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use WP_Theme;
 
@@ -61,6 +62,8 @@ class OnboardingController {
 			'check_plugin_install_url'    => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin' ),
 			'install_plugin_nonce'        => wp_create_nonce( 'pm_onboarding_install_plugin_nonce' ),
 			'install_plugin_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin/install' ),
+			'move_media_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/media' ),
+			'move_media_nonce'        => wp_create_nonce( 'pm_onboarding_move_media_nonce' ),
 		];
 	}
 
@@ -286,6 +289,44 @@ class OnboardingController {
 		}
 
 		wp_send_json_success( [ 'activated' => $plugin ] );
+
+	}
+
+	/**
+	 * Move media folder from demo package.
+	 *
+	 * @param ServerRequestInterface $request
+	 * @return void
+	 */
+	public function installMediaFiles( ServerRequestInterface $request ) {
+
+		check_ajax_referer( 'pm_onboarding_move_media_nonce', 'nonce' );
+
+		$demoMediaFiles = trailingslashit( WP_CONTENT_DIR ) . 'pressmodo-demo/uploads_demo';
+
+		$filesystem = new Filesystem();
+
+		if ( ! $filesystem->exists( $demoMediaFiles ) ) {
+			wp_send_json_error( [ 'error_message' => esc_html__( 'Looks like the demo media folder is missing. Please try uploading the package again.' ) ], 403 );
+		}
+
+		// Delete site's uploads folder.
+		$uploadDir = wp_upload_dir()['path'];
+
+		try {
+			$filesystem->remove( $uploadDir );
+		} catch ( IOExceptionInterface $exception ) {
+			wp_send_json_error( [ 'error_message' => $exception->getMessage() ], 403 );
+		}
+
+		// Move demo folder.
+		try {
+			$filesystem->mirror( $demoMediaFiles, $uploadDir );
+		} catch (\Throwable $th) {
+			wp_send_json_error( [ 'error_message' => $exception->getMessage() ], 403 );
+		}
+
+		wp_send_json_success();
 
 	}
 
