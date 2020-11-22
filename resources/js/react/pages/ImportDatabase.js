@@ -25,38 +25,6 @@ export default () => {
 	const [ errorMessage, setErrorMessage ] = useState(null)
 	const [ isSuccess, setIsSuccess ] = useState(false)
 
-	const moveMediaFiles = (files) => {
-
-		setIsProcessing( true )
-		setErrorMessage( false )
-
-		let formData = new FormData()
-
-		formData.append('nonce', pmOnboarding.move_media_nonce)
-
-		axios.post(pmOnboarding.move_media_url, formData)
-			.then(function (response) {
-				setIsSuccess(true)
-
-				setTimeout(
-					() => router.replace( '/onboarding/database' ),
-					4000
-				);
-			})
-			.catch(function (error) {
-
-				setIsProcessing( false )
-				setIsSuccess(false)
-
-				if (error.response && has(error.response, 'data') && has(error.response.data, 'error_message') ) {
-					setErrorMessage( error.response.data.error_message )
-				} else {
-					setErrorMessage( error.message )
-				}
-
-			});
-	}
-
 	return (
 		<EuiPage>
 			<EuiPageBody component="div">
@@ -66,25 +34,17 @@ export default () => {
 						<PmLogo></PmLogo>
 
 						<EuiEmptyPrompt
-							title={<h2> { __( 'Import media files' ) } </h2>}
+							title={<h2> { __( 'Import demo database' ) } </h2>}
 							body={
 								<Fragment>
 									<p>
-										{ __( 'The media import process overwrites the content of your wp-content/uploads folder. It is recommended you make a backup before proceeding.' ) }
+										{ __( 'The database import process will replace your site content with demo content. It is recommended you make a backup before proceeding.' ) }
 									</p>
-
-									{ ! isSuccess &&
-										<EuiCallOut color="warning">
-											<p>
-												{__('Due to copyright restrictions, demo images will be replaced by placeholder images.')}
-											</p>
-										</EuiCallOut>
-									}
 
 									{ isSuccess &&
 										<EuiCallOut color="success">
 											<p>
-												{__('Media images successfully imported. Proceeding to next step...')}
+												{__('Demo database successfully imported. Proceeding to next step...')}
 											</p>
 										</EuiCallOut>
 									}
@@ -110,7 +70,7 @@ export default () => {
 							}
 							actions={
 								<EuiButton color="primary" fill onClick={ (e) => moveMediaFiles() } >
-									{ __('Import media files') }
+									{ __('Import database') }
 								</EuiButton>
 							}
 						/>
