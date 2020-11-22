@@ -62,8 +62,10 @@ class OnboardingController {
 			'check_plugin_install_url'    => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin' ),
 			'install_plugin_nonce'        => wp_create_nonce( 'pm_onboarding_install_plugin_nonce' ),
 			'install_plugin_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/plugin/install' ),
-			'move_media_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/media' ),
-			'move_media_nonce'        => wp_create_nonce( 'pm_onboarding_move_media_nonce' ),
+			'move_media_url'              => esc_url( trailingslashit( home_url() ) . 'onboarding/media' ),
+			'move_media_nonce'            => wp_create_nonce( 'pm_onboarding_move_media_nonce' ),
+			'install_db_url'              => esc_url( trailingslashit( home_url() ) . 'onboarding/database' ),
+			'install_db_nonce'            => wp_create_nonce( 'pm_onboarding_install_db_nonce' ),
 		];
 	}
 
@@ -322,9 +324,19 @@ class OnboardingController {
 		// Move demo folder.
 		try {
 			$filesystem->mirror( $demoMediaFiles, $uploadDir );
-		} catch (\Throwable $th) {
+		} catch ( \Throwable $th ) {
 			wp_send_json_error( [ 'error_message' => $exception->getMessage() ], 403 );
 		}
+
+		wp_send_json_success();
+
+	}
+
+	public function installDatabase() {
+
+		check_ajax_referer( 'pm_onboarding_install_db_nonce', 'nonce' );
+
+		$demoDb = trailingslashit( WP_CONTENT_DIR ) . 'pressmodo-demo/demo.sql';
 
 		wp_send_json_success();
 

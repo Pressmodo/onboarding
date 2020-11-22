@@ -25,6 +25,35 @@ export default () => {
 	const [ errorMessage, setErrorMessage ] = useState(null)
 	const [ isSuccess, setIsSuccess ] = useState(false)
 
+	const importDatabase = () => {
+
+		setIsProcessing( true )
+		setErrorMessage( false )
+
+		let formData = new FormData()
+
+		formData.append('nonce', pmOnboarding.install_db_nonce)
+
+		axios.post(pmOnboarding.install_db_url, formData)
+			.then(function (response) {
+
+				setIsSuccess(true)
+
+			})
+			.catch(function (error) {
+
+				setIsProcessing(false)
+				setIsSuccess(false)
+
+				if (error.response && has(error.response, 'data') && has(error.response.data, 'error_message') ) {
+					setErrorMessage( error.response.data.error_message )
+				} else {
+					setErrorMessage( error.message )
+				}
+
+			});
+	}
+
 	return (
 		<EuiPage>
 			<EuiPageBody component="div">
@@ -69,7 +98,7 @@ export default () => {
 								</Fragment>
 							}
 							actions={
-								<EuiButton color="primary" fill onClick={ (e) => moveMediaFiles() } >
+								<EuiButton color="primary" fill onClick={ (e) => importDatabase() } >
 									{ __('Import database') }
 								</EuiButton>
 							}

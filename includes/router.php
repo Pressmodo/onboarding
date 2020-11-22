@@ -46,6 +46,9 @@ $router->map( 'POST', '/onboarding/plugin/install', '\Pressmodo\Onboarding\Contr
 $router->map( 'POST', '/onboarding/media', '\Pressmodo\Onboarding\Controllers\OnboardingController::installMediaFiles' )
 	->setStrategy( $strategy );
 
+$router->map( 'POST', '/onboarding/database', '\Pressmodo\Onboarding\Controllers\OnboardingController::installDatabase' )
+	->setStrategy( $strategy );
+
 /**
  * After WP has successfully initialized, we dispatch routes requests only when they match.
  */
