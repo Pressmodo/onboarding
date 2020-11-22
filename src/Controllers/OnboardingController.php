@@ -11,6 +11,7 @@
 
 namespace Pressmodo\Onboarding\Controllers;
 
+use Exception;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Pressmodo\Onboarding\Helper;
 use Pressmodo\Onboarding\Installers\PluginInstaller;
@@ -18,6 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Thamaraiselvam\MysqlImport\Import;
 use WP_Theme;
 
 // Exit if accessed directly.
@@ -332,11 +334,28 @@ class OnboardingController {
 
 	}
 
+	/**
+	 * Import the database sql file.
+	 *
+	 * @return void
+	 */
 	public function installDatabase() {
 
 		check_ajax_referer( 'pm_onboarding_install_db_nonce', 'nonce' );
 
-		$demoDb = trailingslashit( WP_CONTENT_DIR ) . 'pressmodo-demo/demo.sql';
+		$demoDb = trailingslashit( WP_CONTENT_DIR ) . 'pressmodo-demo/local-2020-11-22-18be534.sql';
+
+		$filesystem = new Filesystem();
+
+		if ( ! $filesystem->exists( $demoDb ) ) {
+			wp_send_json_error( [ 'error_message' => esc_html__( 'Looks like the demo database file is missing. Please try uploading the package again.' ) ], 403 );
+		}
+
+		try {
+			$import = new Import( $demoDb, DB_USER, DB_PASSWORD, DB_NAME, DB_HOST );
+		} catch ( Exception $e ) {
+			wp_send_json_error( [ 'error_message' => $e->getMessage() ], 403 );
+		}
 
 		wp_send_json_success();
 
