@@ -49,6 +49,9 @@ $router->map( 'POST', '/onboarding/media', '\Pressmodo\Onboarding\Controllers\On
 $router->map( 'POST', '/onboarding/database', '\Pressmodo\Onboarding\Controllers\OnboardingController::installDatabase' )
 	->setStrategy( $strategy );
 
+$router->map( 'POST', '/onboarding/replace', '\Pressmodo\Onboarding\Controllers\OnboardingController::processSearchReplace' )
+	->setStrategy( $strategy );
+
 /**
  * After WP has successfully initialized, we dispatch routes requests only when they match.
  */

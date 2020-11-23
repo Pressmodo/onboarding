@@ -15,6 +15,7 @@ use Exception;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Pressmodo\Onboarding\Helper;
 use Pressmodo\Onboarding\Installers\PluginInstaller;
+use Pressmodo\Onboarding\SearchReplace;
 use Pressmodo\ThemeRequirements\TGMPAHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -69,6 +70,8 @@ class OnboardingController {
 			'move_media_nonce'            => wp_create_nonce( 'pm_onboarding_move_media_nonce' ),
 			'install_db_url'              => esc_url( trailingslashit( home_url() ) . 'onboarding/database' ),
 			'install_db_nonce'            => wp_create_nonce( 'pm_onboarding_install_db_nonce' ),
+			'search_replace_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/replace' ),
+			'search_replace_nonce'        => wp_create_nonce( 'pm_onboarding_search_replace_nonce' ),
 		];
 	}
 
@@ -348,7 +351,7 @@ class OnboardingController {
 
 		check_ajax_referer( 'pm_onboarding_install_db_nonce', 'nonce' );
 
-		$demoDb = trailingslashit( WP_CONTENT_DIR ) . 'pressmodo-demo/local-2020-11-22-18be534.sql';
+		$demoDb = trailingslashit( WP_CONTENT_DIR ) . 'demo.sql';
 
 		$filesystem = new Filesystem();
 
@@ -363,6 +366,89 @@ class OnboardingController {
 		}
 
 		wp_send_json_success();
+
+	}
+
+	public function processSearchReplace( ServerRequestInterface $request ) {
+
+		check_ajax_referer( 'pm_onboarding_search_replace_nonce', 'nonce' );
+
+		$db = new SearchReplace();
+
+		$step = isset( $_POST['bsr_step'] ) ? absint( $_POST['bsr_step'] ) : 0;
+		$page = isset( $_POST['bsr_page'] ) ? absint( $_POST['bsr_page'] ) : 0;
+
+		$configData = $this->getDemoConfiguration();
+
+		if ( $step === 0 && $page === 0 ) {
+			$args = array();
+			parse_str( $_POST['bsr_data'], $args );
+
+			// Build the arguements for this run.
+			$args = array(
+				'select_tables'    => SearchReplace::getTables(),
+				'case_insensitive' => 'off',
+				'replace_guids'    => 'off',
+				'search_for'       => esc_url( $configData['domain'] ),
+				'replace_with'     => esc_url( home_url() ),
+				'completed_pages'  => isset( $args['completed_pages'] ) ? absint( $args['completed_pages'] ) : 0,
+			);
+
+			$args['total_pages'] = isset( $args['total_pages'] ) ? absint( $args['total_pages'] ) : $db->getTotalPages( $args['select_tables'] );
+
+			// Clear the results of the last run.
+			delete_transient( 'bsr_results' );
+			delete_option( 'bsr_data' );
+		} else {
+			$args = get_option( 'bsr_data' );
+		}
+
+		if ( isset( $args['select_tables'][ $step ] ) ) {
+
+			$result = $db->srdb( $args['select_tables'][ $step ], $page, $args );
+
+			if ( false === $result['table_complete'] ) {
+				$page++;
+			} else {
+				$step++;
+				$page = 0;
+			}
+
+			// Check if isset() again as the step may have changed since last check.
+			if ( isset( $args['select_tables'][ $step ] ) ) {
+				$message = sprintf(
+					__( 'Processing table %1$d of %2$d: %3$s', 'better-search-replace' ),
+					$step + 1,
+					count( $args['select_tables'] ),
+					esc_html( $args['select_tables'][ $step ] )
+				);
+			}
+
+			$args['completed_pages']++;
+			$percentage = $args['completed_pages'] / $args['total_pages'] * 100;
+
+		} else {
+			$db->maybeUpdateSiteUrl();
+			$step       = 'done';
+			$percentage = '100';
+		}
+
+		update_option( 'bsr_data', $args );
+
+		// Store results in an array.
+		$result = array(
+			'step'       => $step,
+			'page'       => $page,
+			'percentage' => $percentage,
+			'url'        => get_admin_url() . 'tools.php?page=better-search-replace&tab=bsr_search_replace&result=true',
+			'bsr_data'   => build_query( $args ),
+		);
+
+		if ( isset( $message ) ) {
+			$result['message'] = $message;
+		}
+
+		wp_send_json_success( $result );
 
 	}
 

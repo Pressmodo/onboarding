@@ -15,6 +15,7 @@ import {
 	EuiButton,
 	EuiCallOut,
 	EuiLoadingSpinner,
+	EuiProgress,
 } from '@elastic/eui';
 
 export default () => {
@@ -22,9 +23,16 @@ export default () => {
 	const router = useRouter();
 
 	const [ isProcessing, setIsProcessing ] = useState(false)
-	const [ errorMessage, setErrorMessage ] = useState(null)
-	const [ isSuccess, setIsSuccess ] = useState(false)
+	const [ searchReplaceStatus, setSearchReplaceStatus ] = useState( null )
+	const [ searchReplaceProgress, setSearchReplaceProgress ] = useState( 0 )
 
+	const [ successMessage, setSuccessMessage ] = useState(null)
+	const [ infoMessage, setInfoMessage ] = useState(null)
+	const [ errorMessage, setErrorMessage ] = useState(null)
+
+	/**
+	 * Import the database, then start search and replace
+	 */
 	const importDatabase = () => {
 
 		setIsProcessing( true )
@@ -36,22 +44,86 @@ export default () => {
 
 		axios.post(pmOnboarding.install_db_url, formData)
 			.then(function (response) {
-
-				setIsSuccess(true)
-
+				setSuccessMessage( __( 'Database successfully imported. Now updating urls...' ) )
+				setInfoMessage(null)
+				setTimeout(
+					() => searchReplaceStep(0,0),
+					3000
+				);
 			})
 			.catch(function (error) {
-
 				setIsProcessing(false)
-				setIsSuccess(false)
-
+				setSuccessMessage(null)
+				setInfoMessage(null)
 				if (error.response && has(error.response, 'data') && has(error.response.data, 'error_message') ) {
 					setErrorMessage( error.response.data.error_message )
 				} else {
 					setErrorMessage( error.message )
 				}
-
 			});
+	}
+
+	/**
+	 * Process search and replace step.
+	 *
+	 * @param {string} step
+	 * @param {string} page
+	 * @param {array} data
+	 */
+	const searchReplaceStep = ( step, page, data = null ) => {
+
+		setIsProcessing( true )
+		setErrorMessage( false )
+
+		let formData = new FormData()
+
+		formData.append( 'nonce', pmOnboarding.search_replace_nonce )
+		formData.append( 'bsr_step', step )
+		formData.append( 'bsr_page', page )
+		formData.append( 'bsr_data', data )
+
+		axios.post(pmOnboarding.search_replace_url, formData)
+			.then(function (response) {
+
+				if (response && has( response, 'data') ) {
+					if ( response.data.data.step === 'done' ) {
+
+						setIsProcessing( false )
+						setSearchReplaceProgress( 100 )
+						setInfoMessage( null )
+						setSuccessMessage( __( 'Database values successfully updated. Cleaning up...' ) )
+
+						console.log( 'done' )
+						console.log( response.data )
+					} else {
+
+						setInfoMessage( response.data.data.message )
+						setSearchReplaceProgress( response.data.data.percentage )
+
+						setTimeout(
+							() => searchReplaceStep( response.data.data.step, response.data.data.page, response.data.data.bsr_data ),
+							1500
+						);
+					}
+				} else {
+					setIsProcessing( false )
+					setSearchReplaceStatus( false )
+					setSearchReplaceProgress( 0 )
+					setSuccessMessage(null)
+					setInfoMessage(null)
+					console.log( response )
+				}
+
+			})
+			.catch(function (error) {
+				setIsProcessing( false )
+				setSearchReplaceStatus( false )
+				setSearchReplaceProgress( 0 )
+				setSuccessMessage(null)
+				setInfoMessage(null)
+				console.error( error.response )
+			});
+
 	}
 
 	return (
@@ -70,15 +142,28 @@ export default () => {
 										{ __( 'The database import process will replace your site content with demo content. It is recommended you make a backup before proceeding.' ) }
 									</p>
 
-									{ isSuccess &&
-										<EuiCallOut color="success">
-											<p>
-												{__('Demo database successfully imported. Proceeding to next step...')}
-											</p>
-										</EuiCallOut>
+									{ successMessage && ! errorMessage &&
+										<div>
+											<EuiCallOut color="success">
+												<p>
+													{__('Demo database successfully imported. Updating urls into the database...')}
+												</p>
+											</EuiCallOut>
+										</div>
 									}
 
-									{ errorMessage && ! isProcessing &&
+									{ infoMessage && ! errorMessage &&
+										<div>
+											<br />
+											<EuiCallOut>
+												<p>
+													{ infoMessage }
+												</p>
+											</EuiCallOut>
+										</div>
+									}
+
+									{ errorMessage && ! isProcessing && ! successMessage &&
 										<div>
 											<br />
 											<EuiCallOut color="danger">
@@ -86,6 +171,13 @@ export default () => {
 													{ errorMessage }
 												</p>
 											</EuiCallOut>
+										</div>
+									}
+
+									{ searchReplaceProgress > 0 && searchReplaceProgress < 100 &&
+										<div>
+											<br/>
+											<EuiProgress value={ searchReplaceProgress } max={100} size="l" />
 										</div>
 									}
 
@@ -98,7 +190,7 @@ export default () => {
 								</Fragment>
 							}
 							actions={
-								<EuiButton color="primary" fill onClick={ (e) => importDatabase() } >
+								<EuiButton color="primary" fill onClick={ (e) => importDatabase() } isLoading={ isProcessing }>
 									{ __('Import database') }
 								</EuiButton>
 							}
