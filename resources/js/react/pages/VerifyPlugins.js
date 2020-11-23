@@ -138,7 +138,7 @@ export default () => {
 				setCurrentlyInstalling( null )
 
 				if ( error.response && has(error.response, 'data') ) {
-					setInstallError( { hasError: true, message: __( 'Something went wrong while activating the plugin. Please contact support.' ) } )
+					setInstallError( { hasError: true, message: error.response.data.data.error_message } )
 				} else {
 					setInstallError({ hasError: true, message: error.message })
 				}

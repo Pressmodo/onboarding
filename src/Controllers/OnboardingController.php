@@ -15,6 +15,7 @@ use Exception;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Pressmodo\Onboarding\Helper;
 use Pressmodo\Onboarding\Installers\PluginInstaller;
+use Pressmodo\ThemeRequirements\TGMPAHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
@@ -180,7 +181,7 @@ class OnboardingController {
 
 		$configData = $this->getDemoConfiguration();
 
-		if ( ! is_array( $configData ) || ( ! isset( $configData['active_plugins'] ) ) ) {
+		if ( ! is_array( $configData ) || ( ! isset( $configData['plugins'] ) ) ) {
 			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking the required plugins for the selected demo. Please contact support.' ) ], 403 );
 		}
 
@@ -223,11 +224,11 @@ class OnboardingController {
 
 		$missingPlugins = [];
 
-		$pluginsRequired = $configData['active_plugins'];
+		$pluginsRequired = $configData['plugins'];
 
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-		foreach ( $pluginsRequired as $plugin ) {
+		foreach ( $pluginsRequired as $plugin => $pluginData ) {
 			if ( ! \is_plugin_active( $plugin ) ) {
 				$pluginInfo       = $configData['plugins'][ $plugin ];
 				$missingPlugins[] = array_merge( $pluginInfo, [ 'slug' => $plugin ] );
@@ -249,13 +250,13 @@ class OnboardingController {
 
 		$configData = $this->getDemoConfiguration();
 
-		if ( ! is_array( $configData ) || ( ! isset( $configData['active_plugins'] ) ) ) {
+		if ( ! is_array( $configData ) || ( ! isset( $configData['plugins'] ) ) ) {
 			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking for the next required plugin.' ) ], 403 );
 		}
 
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-		$pluginsRequired = $configData['active_plugins'];
+		$pluginsRequired = $configData['plugins'];
 
 		foreach ( $pluginsRequired as $plugin ) {
 			if ( ! \is_plugin_active( $plugin ) ) {
@@ -279,6 +280,10 @@ class OnboardingController {
 
 		$plugin     = isset( $_POST['plugin'] ) && ! empty( $_POST['plugin'] ) ? sanitize_text_field( $_POST['plugin'] ) : false;
 		$pluginSlug = strtok( $plugin, '/' );
+
+		if ( ! isset( TGMPAHelper::getInstance()->plugins[ $pluginSlug ] ) ) {
+			wp_send_json_error( [ 'error_message' => esc_html__( 'The requested plugin does not seem to be required by the theme.' ) ], 403 );
+		}
 
 		$install = ( new PluginInstaller() )->installPlugin( $pluginSlug );
 
