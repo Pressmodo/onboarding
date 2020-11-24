@@ -11,6 +11,7 @@
 
 use Laminas\Diactoros\ResponseFactory;
 use League\Route\Strategy\JsonStrategy;
+use Pressmodo\Onboarding\Middlewares\AuthMiddleware;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +25,8 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
 );
 
 $router = new League\Route\Router();
+
+$router->middleware( new AuthMiddleware() );
 
 $responseFactory = new ResponseFactory();
 $strategy        = new JsonStrategy( $responseFactory );
