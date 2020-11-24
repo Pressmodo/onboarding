@@ -29,6 +29,7 @@
 		"laminas/laminas-httphandlerrunner": "^1.2",
 		"league/route": "^4.5",
 		"pressmodo/database-prefixer": "dev-master",
+		"pressmodo/theme-requirements": "dev-master",
 		"pressmodo/wp-requirements": "^1.0",
 		"symfony/filesystem": "^5.1",
 		"thamaraiselvam/mysql-import": "^1.0"
@@ -36,7 +37,6 @@
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
 		"phpunit/phpunit": "^7.0",
-		"pressmodo/theme-requirements": "dev-master",
 		"symfony/var-dumper": "^5.1",
 		"wp-coding-standards/wpcs": "dev-master"
 	},

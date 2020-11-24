@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ce0c2cf1910220470202a35befa2c29",
+    "content-hash": "aa8efbafbb56a16973abbfb2807872d7",
     "packages": [
         {
             "name": "composer/installers",
@@ -536,6 +536,70 @@
             "time": "2020-11-24T13:18:45+00:00"
         },
         {
+            "name": "pressmodo/theme-requirements",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:Pressmodo/theme-requirements.git",
+                "reference": "f27a1cd2cc62c503f5385c192f88d8dab5dd05e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pressmodo/theme-requirements/zipball/f27a1cd2cc62c503f5385c192f88d8dab5dd05e8",
+                "reference": "f27a1cd2cc62c503f5385c192f88d8dab5dd05e8",
+                "shasum": ""
+            },
+            "require": {
+                "composer/installers": "^1.9",
+                "php": ">=7.2",
+                "tgmpa/tgm-plugin-activation": "^2.6"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+                "phpunit/phpunit": "^7.0",
+                "symfony/var-dumper": "^5.1",
+                "wp-coding-standards/wpcs": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pressmodo\\ThemeRequirements\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Pressmodo\\ThemeRequirements\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "bin/phpunit"
+                ]
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Alessandro Tesoro",
+                    "email": "hello@sematico.com",
+                    "homepage": "https://sematico.com",
+                    "role": "Founder & MD"
+                }
+            ],
+            "homepage": "https://backyard.sematico.com",
+            "keywords": [
+                "pressmodo",
+                "sematico",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/pressmodo/theme-requirements/issues",
+                "source": "https://github.com/Pressmodo/theme-requirements/tree/master"
+            },
+            "time": "2020-11-21T12:37:59+00:00"
+        },
+        {
             "name": "pressmodo/wp-requirements",
             "version": "1.0.2",
             "source": {
@@ -988,6 +1052,61 @@
                 }
             ],
             "time": "2020-10-23T14:02:19+00:00"
+        },
+        {
+            "name": "tgmpa/tgm-plugin-activation",
+            "version": "2.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TGMPA/TGM-Plugin-Activation.git",
+                "reference": "c626d0d91fc8ef24916e809c7b79eeafab1c1cac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TGMPA/TGM-Plugin-Activation/zipball/c626d0d91fc8ef24916e809c7b79eeafab1c1cac",
+                "reference": "c626d0d91fc8ef24916e809c7b79eeafab1c1cac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "class-tgm-plugin-activation.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Griffin",
+                    "homepage": "http://thomasgriffinmedia.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Gary Jones",
+                    "homepage": "https://github.com/GaryJones",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Juliette Reinders Folmer",
+                    "homepage": "https://github.com/jrfnl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "TGM Plugin Activation is a PHP library that allows you to easily require or recommend plugins for your WordPress themes (and plugins).",
+            "homepage": "http://tgmpluginactivation.com",
+            "keywords": [
+                "activation",
+                "library",
+                "plugins",
+                "theme",
+                "wordpress"
+            ],
+            "time": "2016-05-19T15:46:51+00:00"
         },
         {
             "name": "thamaraiselvam/mysql-import",
@@ -1863,70 +1982,6 @@
             "time": "2020-01-08T08:45:45+00:00"
         },
         {
-            "name": "pressmodo/theme-requirements",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:Pressmodo/theme-requirements.git",
-                "reference": "f27a1cd2cc62c503f5385c192f88d8dab5dd05e8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Pressmodo/theme-requirements/zipball/f27a1cd2cc62c503f5385c192f88d8dab5dd05e8",
-                "reference": "f27a1cd2cc62c503f5385c192f88d8dab5dd05e8",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "^1.9",
-                "php": ">=7.2",
-                "tgmpa/tgm-plugin-activation": "^2.6"
-            },
-            "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
-                "phpunit/phpunit": "^7.0",
-                "symfony/var-dumper": "^5.1",
-                "wp-coding-standards/wpcs": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pressmodo\\ThemeRequirements\\": "src"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Pressmodo\\ThemeRequirements\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "bin/phpunit"
-                ]
-            },
-            "license": [
-                "GPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Alessandro Tesoro",
-                    "email": "hello@sematico.com",
-                    "homepage": "https://sematico.com",
-                    "role": "Founder & MD"
-                }
-            ],
-            "homepage": "https://backyard.sematico.com",
-            "keywords": [
-                "pressmodo",
-                "sematico",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/pressmodo/theme-requirements/issues",
-                "source": "https://github.com/Pressmodo/theme-requirements/tree/master"
-            },
-            "time": "2020-11-21T12:37:59+00:00"
-        },
-        {
             "name": "sebastian/code-unit-reverse-lookup",
             "version": "1.0.1",
             "source": {
@@ -2784,61 +2839,6 @@
                 }
             ],
             "time": "2020-10-27T10:11:13+00:00"
-        },
-        {
-            "name": "tgmpa/tgm-plugin-activation",
-            "version": "2.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TGMPA/TGM-Plugin-Activation.git",
-                "reference": "c626d0d91fc8ef24916e809c7b79eeafab1c1cac"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TGMPA/TGM-Plugin-Activation/zipball/c626d0d91fc8ef24916e809c7b79eeafab1c1cac",
-                "reference": "c626d0d91fc8ef24916e809c7b79eeafab1c1cac",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "class-tgm-plugin-activation.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Thomas Griffin",
-                    "homepage": "http://thomasgriffinmedia.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Gary Jones",
-                    "homepage": "https://github.com/GaryJones",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Juliette Reinders Folmer",
-                    "homepage": "https://github.com/jrfnl",
-                    "role": "Developer"
-                }
-            ],
-            "description": "TGM Plugin Activation is a PHP library that allows you to easily require or recommend plugins for your WordPress themes (and plugins).",
-            "homepage": "http://tgmpluginactivation.com",
-            "keywords": [
-                "activation",
-                "library",
-                "plugins",
-                "theme",
-                "wordpress"
-            ],
-            "time": "2016-05-19T15:46:51+00:00"
         },
         {
             "name": "theseer/tokenizer",
