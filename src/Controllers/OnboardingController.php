@@ -351,7 +351,7 @@ class OnboardingController {
 		}
 
 		// Delete site's uploads folder.
-		$uploadDir = wp_upload_dir()['path'];
+		$uploadDir = wp_upload_dir()['basedir'];
 
 		try {
 			$filesystem->remove( $uploadDir );
