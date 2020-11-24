@@ -53,7 +53,14 @@ class SearchReplace {
 
 		global $wpdb;
 
-		$tables = $wpdb->get_col( 'SHOW TABLES' );
+		$foundTables = $wpdb->get_col( 'SHOW TABLES' );
+		$tables      = [];
+
+		foreach ( $foundTables as $table ) {
+			if ( strpos( $table, 'demo_' ) === 0 ) {
+				$tables[] = $table;
+			}
+		}
 
 		return $tables;
 	}
