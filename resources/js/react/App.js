@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 
 function OnboardingApp() {
+
 	return (
 		<div className="pm-onboarding-page-wrapper">
 			<Switch>

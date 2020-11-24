@@ -17,6 +17,13 @@ import {
 	EuiFilePicker,
 } from '@elastic/eui';
 
+import { appendIconComponentCache } from '@elastic/eui/es/components/icon/icon';
+import { icon as EuiIconFilePicker } from '@elastic/eui/es/components/icon/assets/import';
+
+appendIconComponentCache({
+	filePicker: EuiIconFilePicker,
+});
+
 export default () => {
 
 	const router = useRouter();
