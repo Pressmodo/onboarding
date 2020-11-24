@@ -285,9 +285,9 @@ class OnboardingController {
 
 		$pluginsRequired = $configData['plugins'];
 
-		foreach ( $pluginsRequired as $plugin ) {
-			if ( ! \is_plugin_active( $plugin ) ) {
-				wp_send_json_error( [ 'slug' => $plugin ], 403 );
+		foreach ( $pluginsRequired as $slug => $plugin ) {
+			if ( ! \is_plugin_active( $slug ) ) {
+				wp_send_json_error( [ 'slug' => $slug ], 403 );
 			}
 		}
 
@@ -381,7 +381,7 @@ class OnboardingController {
 
 		$this->verifyUser();
 
-		$demoDb = trailingslashit( WP_CONTENT_DIR ) . 'demo.sql';
+		$demoDb = trailingslashit( WP_CONTENT_DIR ) . 'pressmodo-demo/demo.sql';
 
 		$filesystem = new Filesystem();
 
