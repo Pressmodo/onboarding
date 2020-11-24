@@ -26,6 +26,7 @@ let folders = [
 	'includes',
 	'languages',
 	'src',
+	'resources/images',
 	'resources/views',
 	'vendor'
 ];
