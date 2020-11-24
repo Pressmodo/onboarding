@@ -553,6 +553,12 @@ class OnboardingController {
 			wp_send_json_error( [ 'error_message' => $e->getMessage() ], 403 );
 		}
 
+		// remove demo package
+		$filesystem = new Filesystem();
+		$extractTo  = trailingslashit( WP_CONTENT_DIR ) . 'pressmodo-demo';
+
+		$filesystem->remove( [ $extractTo ] );
+
 		update_option( 'pressmodo_demo_installed', true );
 
 		wp_clear_auth_cookie();
