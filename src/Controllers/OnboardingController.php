@@ -369,6 +369,12 @@ class OnboardingController {
 
 	}
 
+	/**
+	 * Process database urls search and replace.
+	 *
+	 * @param ServerRequestInterface $request
+	 * @return void
+	 */
 	public function processSearchReplace( ServerRequestInterface $request ) {
 
 		check_ajax_referer( 'pm_onboarding_search_replace_nonce', 'nonce' );
@@ -440,7 +446,6 @@ class OnboardingController {
 			'step'       => $step,
 			'page'       => $page,
 			'percentage' => $percentage,
-			'url'        => get_admin_url() . 'tools.php?page=better-search-replace&tab=bsr_search_replace&result=true',
 			'bsr_data'   => build_query( $args ),
 		);
 

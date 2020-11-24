@@ -14,14 +14,28 @@ namespace Pressmodo\Onboarding;
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Search the database and replace values.
+ */
 class SearchReplace {
 
+	/**
+	 * The page size used throughout the plugin
+	 *
+	 * @var int
+	 */
 	public $pageSize;
 
-	public $file;
-
+	/**
+	 * The WordPress database class.
+	 *
+	 * @var wpdb
+	 */
 	private $wpdb;
 
+	/**
+	 * Get things started.
+	 */
 	public function __construct() {
 
 		global $wpdb;
@@ -30,6 +44,11 @@ class SearchReplace {
 		$this->pageSize = $this->getPageSize();
 	}
 
+	/**
+	 * Get list of demo tables to inspect.
+	 *
+	 * @return array
+	 */
 	public static function getTables() {
 
 		global $wpdb;
@@ -39,6 +58,11 @@ class SearchReplace {
 		return $tables;
 	}
 
+	/**
+	 * Get the size of each database table.
+	 *
+	 * @return array
+	 */
 	public static function getSizes() {
 		global $wpdb;
 
@@ -56,11 +80,22 @@ class SearchReplace {
 		return $sizes;
 	}
 
+	/**
+	 * Returns the current page size.
+	 *
+	 * @return int
+	 */
 	public function getPageSize() {
 		$page_size = get_option( 'bsr_page_size' ) ? get_option( 'bsr_page_size' ) : 20000;
 		return absint( $page_size );
 	}
 
+	/**
+	 * Returns the number of pages in a table.
+	 *
+	 * @param string $table
+	 * @return int
+	 */
 	public function getPagesInTable( $table ) {
 		$table = esc_sql( $table );
 		$rows  = $this->wpdb->get_var( "SELECT COUNT(*) FROM `$table`" );
@@ -68,6 +103,12 @@ class SearchReplace {
 		return absint( $pages );
 	}
 
+	/**
+	 * Gets the total number of pages in the DB.
+	 *
+	 * @param array $tables
+	 * @return int
+	 */
 	public function getTotalPages( $tables ) {
 		$total_pages = 0;
 
@@ -87,6 +128,12 @@ class SearchReplace {
 		return absint( $total_pages );
 	}
 
+	/**
+	 * Get the columns of a table.
+	 *
+	 * @param string $table
+	 * @return array
+	 */
 	public function getColumns( $table ) {
 		$primary_key = null;
 		$columns     = array();
@@ -104,6 +151,14 @@ class SearchReplace {
 		return array( $primary_key, $columns );
 	}
 
+	/**
+	 * Do search and replace.
+	 *
+	 * @param string $table
+	 * @param string $page
+	 * @param array  $args
+	 * @return array
+	 */
 	public function srdb( $table, $page, $args ) {
 
 		// Load up the default settings for this chunk.
@@ -234,6 +289,17 @@ class SearchReplace {
 		);
 	}
 
+	/**
+	 * Take a serialised array and unserialise it replacing elements as needed and
+	 * unserialising any subordinate arrays and performing the replace on those too.
+	 *
+	 * @param string  $from
+	 * @param string  $to
+	 * @param string  $data
+	 * @param boolean $serialised
+	 * @param boolean $case_insensitive
+	 * @return string|array
+	 */
 	public function recursiveUnserializeReplace( $from = '', $to = '', $data = '', $serialised = false, $case_insensitive = false ) {
 		try {
 
@@ -281,6 +347,11 @@ class SearchReplace {
 		return $data;
 	}
 
+	/**
+	 * Updates the Site URL if necessary
+	 *
+	 * @return bool
+	 */
 	public function maybeUpdateSiteUrl() {
 		$option = get_option( 'bsr_update_site_url' );
 
@@ -293,6 +364,13 @@ class SearchReplace {
 		return false;
 	}
 
+	/**
+	 * Mimics the mysql_real_escape_string function. Adapted from a post by 'feedr' on php.net.
+	 *
+	 * @link   http://php.net/manual/en/function.mysql-real-escape-string.php#101248
+	 * @param  string $input The string to escape.
+	 * @return string
+	 */
 	public function mysqlEscapeMimic( $input ) {
 		if ( is_array( $input ) ) {
 			return array_map( __METHOD__, $input );
@@ -304,6 +382,14 @@ class SearchReplace {
 		return $input;
 	}
 
+	/**
+	 * Return unserialized object or array
+	 *
+	 * @param string $serialized_string Serialized string.
+	 * @param string $method            The name of the caller method.
+	 *
+	 * @return mixed, false on failure
+	 */
 	public static function unserialize( $serialized_string ) {
 		if ( ! is_serialized( $serialized_string ) ) {
 			return false;
@@ -315,6 +401,16 @@ class SearchReplace {
 		return $unserialized_string;
 	}
 
+	/**
+	 * Wrapper for str_replace
+	 *
+	 * @param string      $from
+	 * @param string      $to
+	 * @param string      $data
+	 * @param string|bool $case_insensitive
+	 *
+	 * @return string
+	 */
 	public function str_replace( $from, $to, $data, $case_insensitive = false ) {
 		if ( 'on' === $case_insensitive ) {
 			$data = str_ireplace( $from, $to, $data );
