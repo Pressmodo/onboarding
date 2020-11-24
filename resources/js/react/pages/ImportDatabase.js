@@ -142,6 +142,7 @@ export default () => {
 					() => {
 						setInfoMessage( __( 'Account successfully updated.' ) )
 						setIsProcessing( false )
+
 					},
 					1500
 				);
@@ -153,9 +154,46 @@ export default () => {
 				setInfoMessage(null)
 
 				if ( error.response && has(error.response, 'data') ) {
-					setErrorMessage( { hasError: true, message: error.response.data.data.error_message } )
+					setErrorMessage( error.response.data.data.error_message )
 				} else {
-					setErrorMessage({ hasError: true, message: error.message })
+					setErrorMessage( error.message )
+				}
+				console.error( error )
+			});
+
+	}
+
+	const replaceDatabase = () => {
+
+		setIsProcessing( true )
+		setErrorMessage( false )
+		setInfoMessage( __( 'Almost done, cleaning up orphan values...' ) )
+
+		let formData = new FormData()
+
+		formData.append( 'nonce', pmOnboarding.replace_db_nonce )
+
+		axios.post(pmOnboarding.replace_db_url, formData)
+			.then(function (response) {
+				setTimeout(
+					() => {
+						setInfoMessage(null)
+						setSuccessMessage( __( 'Demo installation successfully completed. Click the button below to log into your new website.' ) )
+						setIsProcessing( false )
+					},
+					1500
+				);
+			})
+			.catch(function (error) {
+
+				setIsProcessing( false )
+				setSuccessMessage(null)
+				setInfoMessage(null)
+
+				if ( error.response && has( error.response, 'data') && has( error.response.data, 'data') ) {
+					setErrorMessage( error.response.data.data.error_message )
+				} else {
+					setErrorMessage( error.message )
 				}
 				console.error( error )
 			});
@@ -229,7 +267,7 @@ export default () => {
 								</Fragment>
 							}
 							actions={
-								<EuiButton color="primary" fill onClick={ (e) => importDatabase() } isLoading={ isProcessing }>
+								<EuiButton color="primary" fill onClick={ (e) => replaceDatabase() } isLoading={ isProcessing }>
 									{ __('Import database') }
 								</EuiButton>
 							}

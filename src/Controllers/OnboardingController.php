@@ -13,6 +13,7 @@ namespace Pressmodo\Onboarding\Controllers;
 
 use Exception;
 use Laminas\Diactoros\Response\HtmlResponse;
+use Pressmodo\DB\DatabasePrefixer;
 use Pressmodo\Onboarding\Helper;
 use Pressmodo\Onboarding\Installers\PluginInstaller;
 use Pressmodo\Onboarding\SearchReplace;
@@ -74,6 +75,9 @@ class OnboardingController {
 			'search_replace_nonce'        => wp_create_nonce( 'pm_onboarding_search_replace_nonce' ),
 			'update_account_nonce'        => wp_create_nonce( 'pm_onboarding_update_account_nonce' ),
 			'update_account_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/database/account' ),
+			'replace_db_nonce'            => wp_create_nonce( 'pm_onboarding_replace_db_nonce' ),
+			'replace_db_url'              => esc_url( trailingslashit( home_url() ) . 'onboarding/database/replace' ),
+			'demo_installed' => (bool) get_option( 'pressmodo_demo_installed', false ),
 		];
 	}
 
@@ -489,6 +493,39 @@ class OnboardingController {
 		);
 
 		$wpdb->query( $query ); //phpcs:ignore
+
+		wp_send_json_success();
+
+	}
+
+	/**
+	 * Replace the original site db with the demo db.
+	 *
+	 * @return void
+	 */
+	public function replaceDatabaseWithDemo() {
+
+		check_ajax_referer( 'pm_onboarding_replace_db_nonce', 'nonce' );
+
+		global $wpdb;
+
+		$prefix = str_replace( '_', '\_', $wpdb->prefix );
+
+		$tables = $wpdb->get_col( "SHOW TABLES LIKE '{$prefix}%'" );
+
+		foreach ( $tables as $table ) {
+    		$wpdb->query( "DROP TABLE $table" ); //phpcs:ignore
+		}
+
+		try {
+			$replace = ( new DatabasePrefixer( $wpdb->prefix, 'demo_' ) )->init();
+		} catch ( Exception $e ) {
+			wp_send_json_error( [ 'error_message' => $e->getMessage() ], 403 );
+		}
+
+		update_option( 'pressmodo_demo_installed', true );
+
+		wp_clear_auth_cookie();
 
 		wp_send_json_success();
 
