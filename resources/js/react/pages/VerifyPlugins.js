@@ -184,6 +184,8 @@ export default () => {
 						setCurrentlyInstalling( error.response.data.data.slug )
 						requestPluginInstall( error.response.data.data.slug )
 					}
+				} else if ( error.response && has( error.response, 'data') && has( error.response.data, 'data') && ! has(error.response.data.data, 'slug') ) {
+					setInstallError( { hasError: true, message: error.response.data.data.error_message } )
 				} else {
 					setInstallError({ hasError: true, message: error.message })
 				}
