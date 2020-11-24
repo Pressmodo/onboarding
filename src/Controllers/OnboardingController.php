@@ -83,6 +83,17 @@ class OnboardingController {
 	}
 
 	/**
+	 * Send an error when not authorized.
+	 *
+	 * @return void
+	 */
+	private function verifyUser() {
+		if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( [ 'error_message' => $uploadedFile->get_error_message() ], 403 );
+		}
+	}
+
+	/**
 	 * Redirect back to the onboarding homepage when subroutes are accessed directly.
 	 *
 	 * @param ServerRequestInterface $request
@@ -126,6 +137,8 @@ class OnboardingController {
 	public function upload( ServerRequestInterface $request ) {
 
 		check_ajax_referer( 'pm_onboarding_upload_nonce', 'nonce' );
+
+		$this->verifyUser();
 
 		$submittedData        = ! empty( $_POST ) && is_array( $_POST ) ? $_POST : [];
 		$submittedDemoPackage = isset( $_FILES['file'] ) && ! empty( $_FILES['file'] ) ? $_FILES['file'] : false;
@@ -188,6 +201,8 @@ class OnboardingController {
 	public function verifyPlugins( ServerRequestInterface $request ) {
 
 		check_ajax_referer( 'pm_onboarding_verifyplugins_nonce', 'nonce' );
+
+		$this->verifyUser();
 
 		$configData = $this->getDemoConfiguration();
 
@@ -258,6 +273,8 @@ class OnboardingController {
 
 		check_ajax_referer( 'pm_onboarding_check_required_plugin_nonce', 'nonce' );
 
+		$this->verifyUser();
+
 		$configData = $this->getDemoConfiguration();
 
 		if ( ! is_array( $configData ) || ( ! isset( $configData['plugins'] ) ) ) {
@@ -287,6 +304,8 @@ class OnboardingController {
 	public function installPlugin( ServerRequestInterface $request ) {
 
 		check_ajax_referer( 'pm_onboarding_install_plugin_nonce', 'nonce' );
+
+		$this->verifyUser();
 
 		$plugin     = isset( $_POST['plugin'] ) && ! empty( $_POST['plugin'] ) ? sanitize_text_field( $_POST['plugin'] ) : false;
 		$pluginSlug = strtok( $plugin, '/' );
@@ -320,6 +339,8 @@ class OnboardingController {
 	public function installMediaFiles( ServerRequestInterface $request ) {
 
 		check_ajax_referer( 'pm_onboarding_move_media_nonce', 'nonce' );
+
+		$this->verifyUser();
 
 		$demoMediaFiles = trailingslashit( WP_CONTENT_DIR ) . 'pressmodo-demo/uploads_demo';
 
@@ -358,6 +379,8 @@ class OnboardingController {
 
 		check_ajax_referer( 'pm_onboarding_install_db_nonce', 'nonce' );
 
+		$this->verifyUser();
+
 		$demoDb = trailingslashit( WP_CONTENT_DIR ) . 'demo.sql';
 
 		$filesystem = new Filesystem();
@@ -385,6 +408,8 @@ class OnboardingController {
 	public function processSearchReplace( ServerRequestInterface $request ) {
 
 		check_ajax_referer( 'pm_onboarding_search_replace_nonce', 'nonce' );
+
+		$this->verifyUser();
 
 		$db = new SearchReplace();
 
@@ -473,6 +498,8 @@ class OnboardingController {
 
 		check_ajax_referer( 'pm_onboarding_update_account_nonce', 'nonce' );
 
+		$this->verifyUser();
+
 		global $wpdb;
 
 		$account = get_user_by( 'ID', get_current_user_id() );
@@ -507,6 +534,8 @@ class OnboardingController {
 	public function replaceDatabaseWithDemo() {
 
 		check_ajax_referer( 'pm_onboarding_replace_db_nonce', 'nonce' );
+
+		$this->verifyUser();
 
 		global $wpdb;
 
