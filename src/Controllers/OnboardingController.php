@@ -77,7 +77,8 @@ class OnboardingController {
 			'update_account_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/database/account' ),
 			'replace_db_nonce'            => wp_create_nonce( 'pm_onboarding_replace_db_nonce' ),
 			'replace_db_url'              => esc_url( trailingslashit( home_url() ) . 'onboarding/database/replace' ),
-			'demo_installed' => (bool) get_option( 'pressmodo_demo_installed', false ),
+			'demo_installed'              => (bool) get_option( 'pressmodo_demo_installed', false ),
+			'login_url'                   => wp_login_url( home_url() ),
 		];
 	}
 

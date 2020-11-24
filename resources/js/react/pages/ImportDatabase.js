@@ -23,12 +23,13 @@ export default () => {
 	const router = useRouter();
 
 	const [ isProcessing, setIsProcessing ] = useState(false)
-	const [ searchReplaceStatus, setSearchReplaceStatus ] = useState( null )
 	const [ searchReplaceProgress, setSearchReplaceProgress ] = useState( 0 )
 
 	const [ successMessage, setSuccessMessage ] = useState(null)
 	const [ infoMessage, setInfoMessage ] = useState(null)
 	const [ errorMessage, setErrorMessage ] = useState(null)
+
+	const [ installComplete, setInstallComplete ] = useState(false)
 
 	/**
 	 * Import the database, then start search and replace
@@ -107,7 +108,6 @@ export default () => {
 					}
 				} else {
 					setIsProcessing( false )
-					setSearchReplaceStatus( false )
 					setSearchReplaceProgress( 0 )
 					setSuccessMessage(null)
 					setInfoMessage(null)
@@ -117,7 +117,6 @@ export default () => {
 			})
 			.catch(function (error) {
 				setIsProcessing( false )
-				setSearchReplaceStatus( false )
 				setSearchReplaceProgress( 0 )
 				setSuccessMessage(null)
 				setInfoMessage(null)
@@ -126,6 +125,9 @@ export default () => {
 
 	}
 
+	/**
+	 * Merge the currently logged in user account within the demo database.
+	 */
 	const updateUserAccount = () => {
 
 		setIsProcessing( true )
@@ -142,7 +144,7 @@ export default () => {
 					() => {
 						setInfoMessage( __( 'Account successfully updated.' ) )
 						setIsProcessing( false )
-
+						replaceDatabase()
 					},
 					1500
 				);
@@ -163,6 +165,9 @@ export default () => {
 
 	}
 
+	/**
+	 * Make the demo database the "real" database.
+	 */
 	const replaceDatabase = () => {
 
 		setIsProcessing( true )
@@ -180,6 +185,7 @@ export default () => {
 						setInfoMessage(null)
 						setSuccessMessage( __( 'Demo installation successfully completed. Click the button below to log into your new website.' ) )
 						setIsProcessing( false )
+						setInstallComplete(true)
 					},
 					1500
 				);
@@ -208,70 +214,103 @@ export default () => {
 
 						<PmLogo></PmLogo>
 
-						<EuiEmptyPrompt
-							title={<h2> { __( 'Import demo database' ) } </h2>}
-							body={
-								<Fragment>
-									<p>
-										{ __( 'The database import process will replace your site content with demo content. It is recommended you make a backup before proceeding.' ) }
-									</p>
+							<EuiEmptyPrompt
+								title={<h2> { __( 'Import demo database' ) } </h2>}
+								body={
+									<Fragment>
 
-									{ successMessage && ! errorMessage &&
-										<div>
-											<EuiCallOut color="success">
-												<p>
-													{ successMessage }
-												</p>
-											</EuiCallOut>
-										</div>
-									}
+										<p>
+											{ __( 'The database import process will replace your site content with demo content. It is recommended you make a backup before proceeding.' ) }
+										</p>
 
-									{ infoMessage && successMessage &&
-										<br/>
-									}
+										{
+											pmOnboarding.demo_installed === '1' &&
+											<div>
+												<EuiCallOut color="success">
+													<p>
+														{ __( 'It looks like you have already installed a theme demo on this website. If you wish to install a new demo please start the process from the beginning.' ) }
+													</p>
+												</EuiCallOut>
+												<br/>
+												<EuiButton color="primary" fill onClick={ (e) => router.replace( '/onboarding' ) }>
+													{ __('Install a new demo') }
+												</EuiButton>
+											</div>
+										}
 
-									{ infoMessage && ! errorMessage &&
-										<div>
-											<EuiCallOut>
-												<p>
-													{ infoMessage }
-												</p>
-											</EuiCallOut>
-										</div>
-									}
+										{ pmOnboarding.demo_installed !== '1' &&
+											<div>
 
-									{ errorMessage && ! isProcessing && ! successMessage &&
-										<div>
-											<br />
-											<EuiCallOut color="danger">
-												<p>
-													{ errorMessage }
-												</p>
-											</EuiCallOut>
-										</div>
-									}
+												{ successMessage && ! errorMessage &&
+													<div>
+														<EuiCallOut color="success">
+															<p>
+																{ successMessage }
+															</p>
+														</EuiCallOut>
+													</div>
+												}
 
-									{ searchReplaceProgress > 0 && searchReplaceProgress < 100 &&
-										<div>
-											<br/>
-											<EuiProgress value={ searchReplaceProgress } max={100} size="l" />
-										</div>
-									}
+												{ infoMessage && successMessage &&
+													<br/>
+												}
 
-									{ isProcessing &&
-										<div>
-											<br />
-											<EuiLoadingSpinner size="xl" />
-										</div>
-									}
-								</Fragment>
-							}
-							actions={
-								<EuiButton color="primary" fill onClick={ (e) => replaceDatabase() } isLoading={ isProcessing }>
-									{ __('Import database') }
-								</EuiButton>
-							}
-						/>
+												{ infoMessage && ! errorMessage &&
+													<div>
+														<EuiCallOut>
+															<p>
+																{ infoMessage }
+															</p>
+														</EuiCallOut>
+													</div>
+												}
+
+												{ errorMessage && ! isProcessing && ! successMessage &&
+													<div>
+														<br />
+														<EuiCallOut color="danger">
+															<p>
+																{ errorMessage }
+															</p>
+														</EuiCallOut>
+													</div>
+												}
+
+												{ searchReplaceProgress > 0 && searchReplaceProgress < 100 &&
+													<div>
+														<br/>
+														<EuiProgress value={ searchReplaceProgress } max={100} size="l" />
+													</div>
+												}
+
+												{ installComplete &&
+													<div>
+														<br/>
+														<EuiButton color="primary" fill href={ pmOnboarding.login_url }>
+															{ __('Log in') }
+														</EuiButton>
+													</div>
+												}
+
+												{ isProcessing &&
+													<div>
+														<br />
+														<EuiLoadingSpinner size="xl" />
+													</div>
+												}
+
+											</div>
+										}
+
+									</Fragment>
+								}
+								actions={
+									<EuiButton color="primary" fill onClick={ (e) => importDatabase() } disabled={ pmOnboarding.demo_installed === '1' || installComplete } isLoading={ isProcessing }>
+										{ __('Import database') }
+									</EuiButton>
+								}
+							/>
+
 					</EuiPageContentBody>
 				</EuiPageContent>
 			</EuiPageBody>
