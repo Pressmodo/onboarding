@@ -93,6 +93,8 @@ export default () => {
 						setSearchReplaceProgress( 100 )
 						setInfoMessage( false )
 
+						updateUserAccount()
+
 					} else {
 
 						setInfoMessage( response.data.data.message )
@@ -120,6 +122,42 @@ export default () => {
 				setSuccessMessage(null)
 				setInfoMessage(null)
 				console.error( error.response )
+			});
+
+	}
+
+	const updateUserAccount = () => {
+
+		setIsProcessing( true )
+		setErrorMessage( false )
+		setInfoMessage( __( 'Updating user account...' ) )
+
+		let formData = new FormData()
+
+		formData.append( 'nonce', pmOnboarding.update_account_nonce )
+
+		axios.post(pmOnboarding.update_account_url, formData)
+			.then(function (response) {
+				setTimeout(
+					() => {
+						setInfoMessage( __( 'Account successfully updated.' ) )
+						setIsProcessing( false )
+					},
+					1500
+				);
+			})
+			.catch(function (error) {
+
+				setIsProcessing( false )
+				setSuccessMessage(null)
+				setInfoMessage(null)
+
+				if ( error.response && has(error.response, 'data') ) {
+					setErrorMessage( { hasError: true, message: error.response.data.data.error_message } )
+				} else {
+					setErrorMessage({ hasError: true, message: error.message })
+				}
+				console.error( error )
 			});
 
 	}

@@ -72,6 +72,8 @@ class OnboardingController {
 			'install_db_nonce'            => wp_create_nonce( 'pm_onboarding_install_db_nonce' ),
 			'search_replace_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/replace' ),
 			'search_replace_nonce'        => wp_create_nonce( 'pm_onboarding_search_replace_nonce' ),
+			'update_account_nonce'        => wp_create_nonce( 'pm_onboarding_update_account_nonce' ),
+			'update_account_url'          => esc_url( trailingslashit( home_url() ) . 'onboarding/database/account' ),
 		];
 	}
 
@@ -454,6 +456,41 @@ class OnboardingController {
 		}
 
 		wp_send_json_success( $result );
+
+	}
+
+	/**
+	 * Merge the current user account into the demo account.
+	 *
+	 * @return void
+	 */
+	public function restoreUserAccount() {
+
+		check_ajax_referer( 'pm_onboarding_update_account_nonce', 'nonce' );
+
+		global $wpdb;
+
+		$account = get_user_by( 'ID', get_current_user_id() );
+
+		$username = $account->data->user_login;
+		$password = $account->data->user_pass;
+		$nicename = $account->data->user_nicename;
+		$email    = $account->data->user_email;
+		$url      = esc_url( $account->data->user_url );
+
+		$query = $wpdb->prepare(
+			"UPDATE demo_users SET user_pass = %s, user_activation_key = '', user_login = %s, user_nicename = %s, user_email = %s, user_url = %s WHERE ID = %d",
+			$password,
+			$username,
+			$nicename,
+			$email,
+			$url,
+			1
+		);
+
+		$wpdb->query( $query ); //phpcs:ignore
+
+		wp_send_json_success();
 
 	}
 
