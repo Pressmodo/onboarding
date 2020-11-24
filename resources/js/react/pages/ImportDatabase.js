@@ -88,13 +88,11 @@ export default () => {
 				if (response && has( response, 'data') ) {
 					if ( response.data.data.step === 'done' ) {
 
+						setSuccessMessage( false )
 						setIsProcessing( false )
 						setSearchReplaceProgress( 100 )
-						setInfoMessage( null )
-						setSuccessMessage( __( 'Database values successfully updated. Cleaning up...' ) )
+						setInfoMessage( false )
 
-						console.log( 'done' )
-						console.log( response.data )
 					} else {
 
 						setInfoMessage( response.data.data.message )
@@ -146,15 +144,18 @@ export default () => {
 										<div>
 											<EuiCallOut color="success">
 												<p>
-													{__('Demo database successfully imported. Updating urls into the database...')}
+													{ successMessage }
 												</p>
 											</EuiCallOut>
 										</div>
 									}
 
+									{ infoMessage && successMessage &&
+										<br/>
+									}
+
 									{ infoMessage && ! errorMessage &&
 										<div>
-											<br />
 											<EuiCallOut>
 												<p>
 													{ infoMessage }
