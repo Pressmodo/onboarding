@@ -76,6 +76,7 @@ mix.then( () => {
 		`${exportPath}/vendor/**/readme.md`,
 		`${exportPath}/vendor/**/.gitattributes`,
 		`${exportPath}/dist/**/*.map`,
+		`${exportPath}/dist/*.js`,
 	];
 
 	files.forEach( file => {
