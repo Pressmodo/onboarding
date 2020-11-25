@@ -146,7 +146,7 @@ class Plugin {
 	 * @return void
 	 */
 	public function textdomain() {
-		load_plugin_textdomain( 'pm-onboarding', false, PM_ONBOARDING_PLUGIN_DIR . '/languages' );
+		load_plugin_textdomain( 'pressmodo-onboarding', false, PM_ONBOARDING_PLUGIN_DIR . '/languages' );
 	}
 
 	/**
