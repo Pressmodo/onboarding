@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     Pressmodo Onboarding
  * Plugin URI:      https://pressmodo.com
- * Description:
+ * Description:     Import Pressmodo official themes demo content, widgets and theme settings with just one click.
  * Author:          Alessandro Tesoro
  * Author URI:      https://sematico.com
  * Text Domain:     pressmodo-onboarding
