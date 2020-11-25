@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 
 <head>
 	<meta charset="utf-8" />
-	<title><?php echo esc_html__( 'Pressmodo Themes: Getting started' ); ?></title>
+	<title><?php echo esc_html__( 'Pressmodo Themes: Getting started', 'pressmodo-onboarding' ); ?></title>
 </head>
 
 <body>

@@ -80,7 +80,7 @@ class SearchReplace {
 
 			foreach ( $tables as $table ) {
 				$size                    = round( $table['Data_length'] / 1024 / 1024, 2 );
-				$sizes[ $table['Name'] ] = sprintf( __( '(%s MB)', 'better-search-replace' ), $size );
+				$sizes[ $table['Name'] ] = sprintf( __( '(%s MB)', 'pressmodo-onboarding' ), $size );
 			}
 		}
 
@@ -276,7 +276,7 @@ class SearchReplace {
 				$result = $this->wpdb->query( $sql );
 
 				if ( ! $result ) {
-					$table_report['errors'][] = sprintf( __( 'Error updating row: %d.', 'better-search-replace' ), $current_row );
+					$table_report['errors'][] = sprintf( __( 'Error updating row: %d.', 'pressmodo-onboarding' ), $current_row );
 				} else {
 					$table_report['updates']++;
 				}

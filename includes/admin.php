@@ -21,7 +21,7 @@ add_action(
 
 		global $submenu;
 
-		add_theme_page( __( 'Pressmodo Onboarding' ), __( 'Get started' ), 'edit_theme_options', 'pressmodo-onboarding', 'theme_option_page' );
+		add_theme_page( __( 'Pressmodo Onboarding', 'pressmodo-onboarding' ), __( 'Get started', 'pressmodo-onboarding' ), 'edit_theme_options', 'pressmodo-onboarding', 'theme_option_page' );
 
 		foreach ( $submenu as $key => $menu ) {
 			if ( is_array( $menu ) ) {

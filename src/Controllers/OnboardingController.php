@@ -175,18 +175,18 @@ class OnboardingController {
 
 		if ( ! $filesystem->exists( $configFilePath ) ) {
 			$filesystem->remove( [ $extractTo ] );
-			wp_send_json_error( [ 'error_message' => __( 'The uploaded .zip package does not appear to be a Pressmodo Theme demo package. Please try again or contact support.' ) ], 403 );
+			wp_send_json_error( [ 'error_message' => __( 'The uploaded .zip package does not appear to be a Pressmodo Theme demo package. Please try again or contact support.', 'pressmodo-onboarding' ) ], 403 );
 		}
 
 		// Verify the demo content belongs to the active theme.
 		$configData = $this->getDemoConfiguration();
 
 		if ( ! is_array( $configData ) || ( ! isset( $configData['theme'] ) ) ) {
-			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking the demo configuration file. Please contact support.' ) ], 403 );
+			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking the demo configuration file. Please contact support.', 'pressmodo-onboarding' ) ], 403 );
 		}
 
 		if ( $configData['theme'] !== get_option( 'stylesheet' ) ) {
-			wp_send_json_error( [ 'error_message' => __( 'The uploaded demo package does not belong to the currently active theme on this site. Please upload the appropriate demo package.' ) ], 403 );
+			wp_send_json_error( [ 'error_message' => __( 'The uploaded demo package does not belong to the currently active theme on this site. Please upload the appropriate demo package.', 'pressmodo-onboarding' ) ], 403 );
 		}
 
 		wp_send_json_success();
@@ -207,7 +207,7 @@ class OnboardingController {
 		$configData = $this->getDemoConfiguration();
 
 		if ( ! is_array( $configData ) || ( ! isset( $configData['plugins'] ) ) ) {
-			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking the required plugins for the selected demo. Please contact support.' ) ], 403 );
+			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking the required plugins for the selected demo. Please contact support.', 'pressmodo-onboarding' ) ], 403 );
 		}
 
 		$nonInstalledPlugins = $this->getMissingPluginsConfiguration( $configData );
@@ -216,7 +216,7 @@ class OnboardingController {
 			wp_send_json_error(
 				[
 					'not_found'     => $nonInstalledPlugins,
-					'error_message' => __( 'Some required plugins have not been installed or activated. Press the button below to install all the required plugins.' ),
+					'error_message' => __( 'Some required plugins have not been installed or activated. Press the button below to install all the required plugins.', 'pressmodo-onboarding' ),
 				],
 				403
 			);
@@ -278,7 +278,7 @@ class OnboardingController {
 		$configData = $this->getDemoConfiguration();
 
 		if ( ! is_array( $configData ) || ( ! isset( $configData['plugins'] ) ) ) {
-			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking for the next required plugin.' ) ], 403 );
+			wp_send_json_error( [ 'error_message' => __( 'Something went wrong while checking for the next required plugin.', 'pressmodo-onboarding' ) ], 403 );
 		}
 
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -311,7 +311,7 @@ class OnboardingController {
 		$pluginSlug = strtok( $plugin, '/' );
 
 		if ( ! isset( TGMPAHelper::getInstance()->plugins[ $pluginSlug ] ) ) {
-			wp_send_json_error( [ 'error_message' => esc_html__( 'The requested plugin does not seem to be required by the theme.' ) ], 403 );
+			wp_send_json_error( [ 'error_message' => esc_html__( 'The requested plugin does not seem to be required by the theme.', 'pressmodo-onboarding' ) ], 403 );
 		}
 
 		$install = ( new PluginInstaller() )->installPlugin( $pluginSlug );
@@ -347,7 +347,7 @@ class OnboardingController {
 		$filesystem = new Filesystem();
 
 		if ( ! $filesystem->exists( $demoMediaFiles ) ) {
-			wp_send_json_error( [ 'error_message' => esc_html__( 'Looks like the demo media folder is missing. Please try uploading the package again.' ) ], 403 );
+			wp_send_json_error( [ 'error_message' => esc_html__( 'Looks like the demo media folder is missing. Please try uploading the package again.', 'pressmodo-onboarding' ) ], 403 );
 		}
 
 		// Delete site's uploads folder.
@@ -386,7 +386,7 @@ class OnboardingController {
 		$filesystem = new Filesystem();
 
 		if ( ! $filesystem->exists( $demoDb ) ) {
-			wp_send_json_error( [ 'error_message' => esc_html__( 'Looks like the demo database file is missing. Please try uploading the package again.' ) ], 403 );
+			wp_send_json_error( [ 'error_message' => esc_html__( 'Looks like the demo database file is missing. Please try uploading the package again.', 'pressmodo-onboarding' ) ], 403 );
 		}
 
 		try {
@@ -455,7 +455,7 @@ class OnboardingController {
 			// Check if isset() again as the step may have changed since last check.
 			if ( isset( $args['select_tables'][ $step ] ) ) {
 				$message = sprintf(
-					__( 'Processing table %1$d of %2$d: %3$s', 'better-search-replace' ),
+					__( 'Processing table %1$d of %2$d: %3$s', 'pressmodo-onboarding' ),
 					$step + 1,
 					count( $args['select_tables'] ),
 					esc_html( $args['select_tables'][ $step ] )

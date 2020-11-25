@@ -163,10 +163,10 @@ class Helper {
 
 			if ( $args['file_label'] ) {
 				// translators: %1$s is the file field label; %2$s is the file type; %3$s is the list of allowed file types.
-				return new WP_Error( 'upload', sprintf( __( '"%1$s" (filetype %2$s) needs to be one of the following file types: %3$s', 'wp-job-manager' ), $args['file_label'], $file['type'], $allowedFileExtensions ) );
+				return new WP_Error( 'upload', sprintf( __( '"%1$s" (filetype %2$s) needs to be one of the following file types: %3$s', 'pressmodo-onboarding' ), $args['file_label'], $file['type'], $allowedFileExtensions ) );
 			} else {
 				// translators: %s is the list of allowed file types.
-				return new WP_Error( 'upload', sprintf( __( 'Uploaded files need to be one of the following file types: %s', 'wp-job-manager' ), $allowedFileExtensions ) );
+				return new WP_Error( 'upload', sprintf( __( 'Uploaded files need to be one of the following file types: %s', 'pressmodo-onboarding' ), $allowedFileExtensions ) );
 			}
 		} else {
 			$upload = wp_handle_upload( $file, apply_filters( 'submit_job_wp_handle_upload_overrides', [ 'test_form' => false ] ) );
