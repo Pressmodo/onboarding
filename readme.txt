@@ -1,6 +1,5 @@
 === Pressmodo Themes Onboarding ===
-Contributors: alessandro.tesoro, pressmodo, sematico
-Donate link:
+Contributors: alessandro.tesoro, sematico
 Tags: pressmodo, onboarding, themes, demo, import, importer
 Requires at least: 4.0
 Tested up to: 4.8
@@ -9,80 +8,41 @@ Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+Import Pressmodo official themes demo content, widgets and theme settings with just one click.
 
 == Description ==
 
-This is the long description. No limit, and you can use Markdown (as well as in the following sections).
+[Pressmodo](https://pressmodo.com) Themes Onboarding is a free demo importer WordPress plugin that lets you import the demo you desire in just a single click.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+Each [Pressmodo](https://pressmodo.com) theme provides many different demo packages. To install a demo, activate the plugin, then navigate to **Appearances → Get started** and follow the instructions.
 
-A few notes about the sections above:
+**Please note**: importing a demo package will result in your site's database and `wp-content/uploads` folder to be overwritten with demo content.
 
-* "Contributors" is a comma separated list of wordpress.org usernames
-* "Tags" is a comma separated list of tags that apply to the plugin
-* "Requires at least" is the lowest version that the plugin will work on
-* "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-* Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
+>It's recommended you make a backup of your site if you have pre-existing content.
 
- Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
-if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-for displaying information about the plugin. In this situation, the only thing considered from the trunk `readme.txt`
-is the stable tag pointer. Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-your in-development version, without having that information incorrectly disclosed about the current stable version
-that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
-
- If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
-
-Ordered list:
-
-1. Some feature
-1. Another feature
-1. Something else about the plugin
-
-Unordered list:
-
-* something
-* something else
-* third thing
-
-Here's a link to [WordPress](http://wordpress.org/ "Your favorite software") and one to [Markdown's Syntax Documentation][markdown syntax].
-Titles are optional, naturally.
-
-[markdown syntax]: http://daringfireball.net/projects/markdown/syntax
-    "Markdown is what the parser uses to process much of the readme file"
-
-Markdown uses email style notation for blockquotes and I've been told:
-> Asterisks for *emphasis*. Double it up  for **strong**.
-
-`<?php code(); // goes in backticks ?>`
-
-== Installation ==
-
-This section describes how to install the plugin and get it working.
-
-e.g.
-
-1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
-1. Use the Settings->Plugin Name screen to configure the plugin
-1. (Make your instructions match the desired user flow for activating and installing your plugin. Include any steps that might be needed for explanatory purposes)
+For more information on how the plugin works, please refer to the FAQ section below.
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= Which themes are compatible? =
 
-An answer to that question.
+Only [Pressmodo](https://pressmodo.com) themes are compatible.
 
+= How does the plugin work? =
 
-== Screenshots ==
+Each [Pressmodo](https://pressmodo.com) theme provides a number of demo packages (.zip files) that can be used to install a replica of the live demo.
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif).
-2. This is the second screen shot
+The onboarding process will require you to upload the .zip file of the demo you wish to install onto your site. The process will then:
+
+1. Unpack the demo package within the wp-content folder of your site.
+2. Start the installation and activation of all plugins required by the demo.
+3. Replace your wp-content/uploads folder with the necessary demo files.
+4. Overwrite your site's database with the one provided by the demo. This will include content, widgets and all necessary settings.
+
+== Installation ==
+
+= Minimum Requirements =
+* PHP version 7.2 or greater is required.
 
 == Changelog ==
 
