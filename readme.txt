@@ -2,7 +2,7 @@
 Contributors: alessandro.tesoro, sematico
 Tags: pressmodo, onboarding, themes, demo, import, importer
 Requires at least: 4.0
-Tested up to: 4.8
+Tested up to: 5.6
 Stable tag: 1.0.0
 Requires PHP: 7.2
 License: GPLv2 or later

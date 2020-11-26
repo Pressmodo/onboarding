@@ -7,7 +7,7 @@
  * Author URI:      https://sematico.com
  * Text Domain:     pressmodo-onboarding
  * Domain Path:     /languages
- * Version:         0.1.0
+ * Version:         1.0.0
  *
  * @package   pressmodo-onboarding
  * @author    Sematico LTD <hello@sematico.com>
