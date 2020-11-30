@@ -19,12 +19,12 @@ export default () => {
 	return (
 		<EuiHeader position="fixed">
 			<EuiHeaderSectionItem className="pm-onboarding-header">
-				<EuiToolTip content={ __( 'Back to the WordPress dashboard' ) }>
+				<EuiToolTip content={ __( 'Back to the WordPress dashboard', 'pressmodo-onboarding' ) }>
 					<EuiHeaderLogo
 						iconType={ wpLogo }
 						href={ pmOnboarding.admin_url }
 						className= 'wp-logo'
-						aria-label={ __( 'Back to the WordPress dashboard' ) }
+						aria-label={ __( 'Back to the WordPress dashboard', 'pressmodo-onboarding' ) }
 					/>
 				</EuiToolTip>
 			</EuiHeaderSectionItem>
@@ -32,11 +32,11 @@ export default () => {
 				<EuiHeaderLinks>
 					<EuiHeaderLink href={ pmOnboarding.documentation_url }>
 						<FontAwesomeIcon icon={ faLifeRing } />
-						{ __( 'Documentation' ) }
+						{ __( 'Documentation', 'pressmodo-onboarding' ) }
 					</EuiHeaderLink>
 					<EuiHeaderLink href={ pmOnboarding.support_url }>
 						<FontAwesomeIcon icon={ faPaperPlane } />
-						{ __( 'Support' ) }
+						{ __( 'Support', 'pressmodo-onboarding' ) }
 					</EuiHeaderLink>
 				</EuiHeaderLinks>
 			</EuiHeaderSectionItem>

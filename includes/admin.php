@@ -49,5 +49,7 @@ add_action(
 
 		wp_localize_script( 'pm-onboarding', 'pmOnboarding', OnboardingController::getJsData() );
 
+		wp_set_script_translations( 'pm-onboarding', 'pressmodo-onboarding' );
+
 	}
 );
