@@ -26,7 +26,6 @@ class PluginInstaller {
 	 * Get things started.
 	 */
 	public function __construct() {
-		require_once ABSPATH . '/wp-load.php';
 		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/misc.php';
