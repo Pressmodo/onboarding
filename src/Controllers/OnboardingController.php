@@ -12,7 +12,6 @@
 namespace Pressmodo\Onboarding\Controllers;
 
 use Exception;
-use Laminas\Diactoros\Response\HtmlResponse;
 use Pressmodo\DB\DatabasePrefixer;
 use Pressmodo\Onboarding\Helper;
 use Pressmodo\Onboarding\Installers\PluginInstaller;
@@ -34,31 +33,20 @@ defined( 'ABSPATH' ) || exit;
 class OnboardingController {
 
 	/**
-	 * Theme details.
-	 *
-	 * @var WP_Theme
-	 */
-	public $theme;
-
-	/**
-	 * Get things started.
-	 */
-	public function __construct() {
-		$this->theme = wp_get_theme();
-	}
-
-	/**
 	 * Get js variables for the react app.
 	 *
 	 * @return array
 	 */
-	private function getJsData() {
+	public static function getJsData() {
+
+		$theme = wp_get_theme();
+
 		return [
 			'admin_url'                   => esc_url( get_admin_url() ),
 			'plugin_url'                  => esc_url( PM_ONBOARDING_PLUGIN_URL ),
 			'documentation_url'           => Helper::getDocumentationUrl(),
 			'support_url'                 => 'https://support.pressmodo.com',
-			'theme'                       => $this->theme->get( 'Name' ),
+			'theme'                       => $theme->get( 'Name' ),
 			'ajax_url'                    => esc_url( trailingslashit( home_url() ) . 'onboarding/upload' ),
 			'upload_package_nonce'        => wp_create_nonce( 'pm_onboarding_upload_nonce' ),
 			'verify_plugins_nonce'        => wp_create_nonce( 'pm_onboarding_verifyplugins_nonce' ),
@@ -89,7 +77,7 @@ class OnboardingController {
 	 */
 	private function verifyUser() {
 		if ( ! is_user_logged_in() || ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'error_message' => $uploadedFile->get_error_message() ], 403 );
+			wp_send_json_error( [ 'error_message' => __( 'Something went wrong. User not authorized.' ) ], 403 );
 		}
 	}
 
@@ -109,23 +97,6 @@ class OnboardingController {
 
 		wp_safe_redirect( esc_url_raw( $url ) );
 		exit;
-	}
-
-	/**
-	 * Display the react app when viewing the onboarding page.
-	 *
-	 * @param ServerRequestInterface $request
-	 * @return ResponseInterface
-	 */
-	public function view( ServerRequestInterface $request ) : ResponseInterface {
-
-		ob_start();
-		$jsData = $this->getJsData();
-		include PM_ONBOARDING_PLUGIN_DIR . '/resources/views/onboarding.php';
-		$output = ob_get_clean();
-
-		return new HtmlResponse( $output );
-
 	}
 
 	/**

@@ -9,6 +9,8 @@
  * @link      https://sematico.com
  */
 
+use Pressmodo\Onboarding\Controllers\OnboardingController;
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -18,20 +20,34 @@ defined( 'ABSPATH' ) || exit;
 add_action(
 	'admin_menu',
 	function() {
+		add_theme_page( __( 'Pressmodo Onboarding', 'pressmodo-onboarding' ), __( 'Get started', 'pressmodo-onboarding' ), 'edit_theme_options', 'pressmodo-onboarding', 'pm_admin_page' );
+	}
+);
 
-		global $submenu;
+/**
+ * Displays the onboarding page.
+ *
+ * @return void
+ */
+function pm_admin_page() {
+	echo '<div id="root"></div>'; //phpcs:ignore
+}
 
-		add_theme_page( __( 'Pressmodo Onboarding', 'pressmodo-onboarding' ), __( 'Get started', 'pressmodo-onboarding' ), 'edit_theme_options', 'pressmodo-onboarding', 'theme_option_page' );
+add_action(
+	'admin_enqueue_scripts',
+	function() {
 
-		foreach ( $submenu as $key => $menu ) {
-			if ( is_array( $menu ) ) {
-				foreach ( $menu as $subMenuKey => $subMenuItem ) {
-					if ( $subMenuItem[2] === 'pressmodo-onboarding' ) {
-						$submenu[ $key ][ $subMenuKey ][ 2 ] = trailingslashit( get_site_url( null, 'onboarding' ) ); //phpcs:ignore
-					}
-				}
-			}
+		$screen = get_current_screen();
+
+		if ( $screen->base !== 'appearance_page_pressmodo-onboarding' ) {
+			return;
 		}
+
+		wp_register_script( 'pm-onboarding', PM_ONBOARDING_PLUGIN_URL . 'dist/js/react/index.js', [], PM_ONBOARDING_VERSION, true );
+
+		wp_enqueue_script( 'pm-onboarding' );
+
+		wp_localize_script( 'pm-onboarding', 'pmOnboarding', OnboardingController::getJsData() );
 
 	}
 );
