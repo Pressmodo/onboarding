@@ -18,8 +18,8 @@ export default () => {
 
 	const router = useRouter();
 
-	if ( has( router.query, 'page' ) && router.query.page !== 'pressmodo-onboarding' ) {
-		router.replace( '/onboarding/' + router.query.page )
+	if ( has( router.query, 'onboarding' ) && router.query.onboarding !== 'pressmodo-onboarding' ) {
+		router.replace( '/onboarding/' + router.query.onboarding )
 	}
 
 	return (

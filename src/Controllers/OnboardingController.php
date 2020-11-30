@@ -90,9 +90,9 @@ class OnboardingController {
 	public function redirect( ServerRequestInterface $request ) {
 
 		if ( ! empty( $request->getAttribute( 'path' ) ) ) {
-			$url = add_query_arg( [ 'page' => $request->getAttribute( 'path' ) ], untrailingslashit( home_url( 'onboarding' ) ) );
+			$url = add_query_arg( [ 'onboarding' => $request->getAttribute( 'path' ) ], admin_url( 'themes.php?page=pressmodo-onboarding' ) );
 		} else {
-			$url = untrailingslashit( home_url( 'onboarding' ) );
+			$url = untrailingslashit( admin_url( 'themes.php?page=pressmodo-onboarding' ) );
 		}
 
 		wp_safe_redirect( esc_url_raw( $url ) );
