@@ -18,7 +18,7 @@ export default () => {
 
 	const router = useRouter();
 
-	if ( has( router.query, 'page' ) ) {
+	if ( has( router.query, 'page' ) && router.query.page !== 'pressmodo-onboarding' ) {
 		router.replace( '/onboarding/' + router.query.page )
 	}
 
@@ -49,7 +49,7 @@ export default () => {
 								</Fragment>
 							}
 							actions={
-								<EuiButton color="primary" fill onClick={ (e) => router.push('onboarding/upload') }>
+								<EuiButton color="primary" fill onClick={ (e) => router.push('/onboarding/upload') }>
 									{__('Get started')}
 								</EuiButton>
 							}

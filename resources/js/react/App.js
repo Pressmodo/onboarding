@@ -28,7 +28,7 @@ function OnboardingApp() {
 				<Route path="/onboarding/upload">
 					<UploadPackage></UploadPackage>
 				</Route>
-				<Route path="/onboarding">
+				<Route>
 					<GettingStartedPage></GettingStartedPage>
 				</Route>
 			</Switch>

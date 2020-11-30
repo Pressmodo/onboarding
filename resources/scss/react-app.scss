@@ -49,3 +49,26 @@ button {
 		margin-right: 0.5rem;
 	}
 }
+
+html.wp-toolbar {
+	padding: 0;
+}
+
+#adminmenumain, #wpfooter, #wpadminbar {
+	display: none;
+}
+
+#wpcontent {
+	margin: 0;
+	padding: 0;
+}
+
+#wpbody-content {
+	float: none;
+	margin: 0;
+	padding: 0;
+}
+
+#wpbody {
+	background-color: #fafbfd;
+}
