@@ -122,6 +122,8 @@ class OnboardingController {
 			wp_send_json_error( [ 'error_message' => $uploadedFile->get_error_message() ], 403 );
 		}
 
+		delete_option( 'pressmodo_demo_installed' );
+
 		$filesystem = new Filesystem();
 
 		$uploadedFilePath = $uploadedFile->file;
