@@ -17,12 +17,10 @@ use Pressmodo\Onboarding\Helper;
 use Pressmodo\Onboarding\Installers\PluginInstaller;
 use Pressmodo\Onboarding\SearchReplace;
 use Pressmodo\ThemeRequirements\TGMPAHelper;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Thamaraiselvam\MysqlImport\Import;
-use WP_Theme;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -111,8 +109,8 @@ class OnboardingController {
 
 		$this->verifyUser();
 
-		$submittedData        = ! empty( $_POST ) && is_array( $_POST ) ? $_POST : [];
-		$submittedDemoPackage = isset( $_FILES['file'] ) && ! empty( $_FILES['file'] ) ? $_FILES['file'] : false;
+		// Input is sanitized through helper method.
+		$submittedDemoPackage = isset( $_FILES['file'] ) && ! empty( $_FILES['file'] ) ? Helper::clean( $_FILES['file'] ) : false;
 
 		$fileToUpload = Helper::prepareUploadedFiles( $submittedDemoPackage );
 
@@ -392,8 +390,7 @@ class OnboardingController {
 		$configData = $this->getDemoConfiguration();
 
 		if ( $step === 0 && $page === 0 ) {
-			$args = array();
-			parse_str( $_POST['bsr_data'], $args );
+			$args = isset( $_POST['bsr_data'] ) ? Helper::clean( $_POST['bsr_data'] ) : array();
 
 			// Build the arguements for this run.
 			$args = array(

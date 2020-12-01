@@ -16,6 +16,7 @@ use Pressmodo\Onboarding\Middlewares\AuthMiddleware;
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+// We're not processing anything here. Data is cleaned up through the controller when needed.
 $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
 	$_SERVER,
 	$_GET,
