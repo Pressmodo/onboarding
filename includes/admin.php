@@ -9,6 +9,8 @@
  * @link      https://sematico.com
  */
 
+namespace Pressmodo\Onboarding;
+
 use Pressmodo\Onboarding\Controllers\OnboardingController;
 
 // Exit if accessed directly.
@@ -20,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 add_action(
 	'admin_menu',
 	function() {
-		add_theme_page( __( 'Pressmodo Onboarding', 'pressmodo-onboarding' ), __( 'Get started', 'pressmodo-onboarding' ), 'edit_theme_options', 'pressmodo-onboarding', 'pm_admin_page' );
+		add_theme_page( __( 'Pressmodo Onboarding', 'pressmodo-onboarding' ), __( 'Get started', 'pressmodo-onboarding' ), 'edit_theme_options', 'pressmodo-onboarding', __NAMESPACE__ . '\\adminPage' );
 	}
 );
 
@@ -29,7 +31,7 @@ add_action(
  *
  * @return void
  */
-function pm_admin_page() {
+function adminPage() {
 	echo '<div id="root"></div>'; //phpcs:ignore
 }
 
