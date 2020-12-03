@@ -75,6 +75,7 @@ mix.then( () => {
 		`${exportPath}/vendor/**/readme.md`,
 		`${exportPath}/vendor/**/.gitattributes`,
 		`${exportPath}/vendor/tgmpa/tgm-plugin-activation/plugins`,
+		`${exportPath}//vendor/nikic/fast-route/test`,
 		`${exportPath}/dist/**/*.map`,
 		`${exportPath}/dist/*.js`,
 	];
