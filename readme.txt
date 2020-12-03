@@ -1,5 +1,5 @@
 === Pressmodo Themes Onboarding ===
-Contributors: alessandro.tesoro, sematico
+Contributors: sematico, alessandro.tesoro
 Tags: pressmodo, onboarding, themes, demo, import, importer
 Requires at least: 5.5
 Tested up to: 5.5
