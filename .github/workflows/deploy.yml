@@ -34,6 +34,7 @@ jobs:
         SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
         SLUG: ${{ secrets.SLUG }}
+		BUILD_DIR: pressmodo-onboarding
     - name: Upload release asset
       uses: actions/upload-release-asset@v1
       env:
