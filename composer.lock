@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a31855adb7f0ca278e69f203183dfadd",
+    "content-hash": "1e5c9471f3e342b83a745c9432c99e4b",
     "packages": [
         {
             "name": "composer/installers",
@@ -569,6 +569,72 @@
                 "source": "https://github.com/Pressmodo/database-prefixer/tree/master"
             },
             "time": "2020-11-24T13:18:45+00:00"
+        },
+        {
+            "name": "pressmodo/wp-requirements",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pressmodo/wp-requirements.git",
+                "reference": "ef0538e42482016c804820203738b3b31d6af16c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pressmodo/wp-requirements/zipball/ef0538e42482016c804820203738b3b31d6af16c",
+                "reference": "ef0538e42482016c804820203738b3b31d6af16c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+                "php-mock/php-mock-phpunit": "^2.5",
+                "phpunit/phpunit": "^6.5.5",
+                "pressmodo/phpcs-config": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pressmodo\\Requirements\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Pressmodo",
+                    "email": "hello@pressmodo.com",
+                    "homepage": "https://pressmodo.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alessandro Tesoro",
+                    "email": "hello@sematico.com",
+                    "homepage": "https://alessandrotesoro.me",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alessandro Tesoro",
+                    "email": "hello@sematico.com",
+                    "homepage": "https://sematico",
+                    "role": "Founder & MD"
+                }
+            ],
+            "description": "An helper library to determine requirements of WordPress plugins and themes.",
+            "homepage": "https://github.com/pressmodo/wp-requirements",
+            "keywords": [
+                "pressmodo",
+                "requirements",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/pressmodo/wp-admin-notices/issues",
+                "source": "https://github.com/Pressmodo/wp-requirements/tree/1.0.2"
+            },
+            "time": "2020-06-10T18:37:41+00:00"
         },
         {
             "name": "psr/container",

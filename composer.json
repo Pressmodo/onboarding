@@ -35,6 +35,7 @@
         "laminas/laminas-httphandlerrunner": "^1.2",
         "league/route": "^4.5",
         "pressmodo/database-prefixer": "dev-master",
+        "pressmodo/wp-requirements": "^1.0",
         "symfony/filesystem": "^5.1",
         "thamaraiselvam/mysql-import": "^1.0"
     },
