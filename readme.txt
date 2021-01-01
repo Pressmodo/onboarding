@@ -46,7 +46,7 @@ The onboarding process will require you to upload the .zip file of the demo you 
 
 == Changelog ==
 
-*v1.0.1 - 1st January 2021*
+*v1.0.2 - 1st January 2021*
 
 - Tweak: removed a dependency no longer required.
 
