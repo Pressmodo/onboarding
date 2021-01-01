@@ -119,7 +119,7 @@ class Plugin {
 
 		// Plugin version.
 		if ( ! defined( 'PM_ONBOARDING_VERSION' ) ) {
-			define( 'PM_ONBOARDING_VERSION', '1.0.0' );
+			define( 'PM_ONBOARDING_VERSION', '1.0.1' );
 		}
 		// Plugin Root File.
 		if ( ! defined( 'PM_ONBOARDING_PLUGIN_FILE' ) ) {
