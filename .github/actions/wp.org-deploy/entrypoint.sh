@@ -82,11 +82,6 @@ svn status | grep '^\!' | sed 's/! *//' | xargs -I% svn rm %@ --quiet
 echo "➤ Copying tag..."
 svn cp "trunk" "tags/$VERSION"
 
-# Fix screenshots getting force downloaded when clicking them
-# https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/
-svn propset svn:mime-type image/png *.png
-svn propset svn:mime-type image/jpeg *.jpg
-
 svn status
 
 echo "➤ Committing files..."
