@@ -1,37 +1,41 @@
 name: Deploy to WordPress.org
-on:
-  release:
-    types: [published]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
+'on':
+    release:
+        types:
+            - published
+    workflow_dispatch: null
 jobs:
-  tag:
-    name: New release
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GITPAT }}
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
-
-    - name: Build
-      run: |
-        yarn install
-        yarn export
-
-    - name: WordPress Plugin Deploy
-      id: deploy
-      uses: ./.github/actions/wp.org-deploy
-      env:
-       SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-       SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-       SLUG: ${{ secrets.SLUG }}
-       BUILD_DIR: pressmodo-onboarding
+    tag:
+        name: New release
+        runs-on: ubuntu-latest
+        steps:
+            -
+                name: Checkout code
+                uses: actions/checkout@v2
+                with:
+                    token: '${{ secrets.GITPAT }}'
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '7.4'
+            -
+                name: Validate composer.json and composer.lock
+                run: composer validate
+            -
+                name: Install dependencies
+                run: composer install --prefer-dist --no-progress --no-suggest
+            -
+                name: Build
+                run: |
+                    yarn install
+                    yarn export
+            -
+                name: WordPress Plugin Deploy
+                id: deploy
+                uses: ./.github/actions/wp.org-deploy
+                env:
+                    SVN_USERNAME: '${{ secrets.SVN_USERNAME }}'
+                    SVN_PASSWORD: '${{ secrets.SVN_PASSWORD }}'
+                    SLUG: '${{ secrets.SLUG }}'
+                    BUILD_DIR: pressmodo-onboarding
