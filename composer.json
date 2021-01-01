@@ -1,63 +1,65 @@
 {
-	"name": "pressmodo/onboarding",
-	"description": "",
-	"keywords": ["wordpress", "pressmodo", "sematico"],
-	"homepage": "https://pressmodo.com",
-	"license": "GPL-3.0-or-later",
-	"authors": [{
-		"name": "Alessandro Tesoro",
-		"email": "hello@sematico.com",
-		"homepage": "https://sematico.com",
-		"role": "Founder & MD"
-	}],
-	"support": {
-		"issues": "https://github.com/pressmodo/onboarding/issues"
-	},
-	"autoload": {
-		"psr-4": {
-			"Pressmodo\\Onboarding\\": "src"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"Pressmodo\\Onboarding\\Tests\\": "tests"
-		}
-	},
-	"require": {
-		"php": ">=7.2",
-		"laminas/laminas-diactoros": "^2.4",
-		"laminas/laminas-httphandlerrunner": "^1.2",
-		"league/route": "^4.5",
-		"pressmodo/database-prefixer": "dev-master",
-		"pressmodo/theme-requirements": "dev-master",
-		"pressmodo/wp-requirements": "^1.0",
-		"symfony/filesystem": "^5.1",
-		"thamaraiselvam/mysql-import": "^1.0"
-	},
-	"require-dev": {
-		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-		"phpunit/phpunit": "^7.0",
-		"symfony/var-dumper": "^5.1",
-		"wp-coding-standards/wpcs": "dev-master"
-	},
-	"config": {
-		"bin-dir": "bin",
-		"sort-packages": true,
-		"preferred-install": {
-			"*": "dist"
-		}
-	},
-	"repositories": [{
-		"type": "vcs",
-		"url": "https://github.com/pressmodo/theme-requirements.git"
-	},
-	{
-		"type": "vcs",
-		"url": "https://github.com/pressmodo/database-prefixer.git"
-	}],
-	"scripts": {
-		"test": "bin/phpunit"
-	},
-	"minimum-stability": "dev",
-	"prefer-stable": true
+    "name": "pressmodo/onboarding",
+    "description": "",
+    "keywords": [
+        "wordpress",
+        "pressmodo",
+        "sematico"
+    ],
+    "homepage": "https://pressmodo.com",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Alessandro Tesoro",
+            "email": "hello@sematico.com",
+            "homepage": "https://sematico.com",
+            "role": "Founder & MD"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pressmodo/onboarding/issues"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pressmodo\\Onboarding\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pressmodo\\Onboarding\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "php": ">=7.2",
+        "laminas/laminas-diactoros": "^2.4",
+        "laminas/laminas-httphandlerrunner": "^1.2",
+        "league/route": "^4.5",
+        "pressmodo/database-prefixer": "dev-master",
+        "symfony/filesystem": "^5.1",
+        "thamaraiselvam/mysql-import": "^1.0"
+    },
+    "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "phpunit/phpunit": "^7.0",
+        "symfony/var-dumper": "^5.1",
+        "wp-coding-standards/wpcs": "dev-master"
+    },
+    "config": {
+        "bin-dir": "bin",
+        "sort-packages": true,
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/pressmodo/database-prefixer.git"
+        }
+    ],
+    "scripts": {
+        "test": "bin/phpunit"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

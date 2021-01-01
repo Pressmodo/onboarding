@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e27283c56826903e49dca074c7f63543",
+    "content-hash": "a31855adb7f0ca278e69f203183dfadd",
     "packages": [
         {
             "name": "composer/installers",
@@ -571,137 +571,6 @@
             "time": "2020-11-24T13:18:45+00:00"
         },
         {
-            "name": "pressmodo/theme-requirements",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:Pressmodo/theme-requirements.git",
-                "reference": "f27a1cd2cc62c503f5385c192f88d8dab5dd05e8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Pressmodo/theme-requirements/zipball/f27a1cd2cc62c503f5385c192f88d8dab5dd05e8",
-                "reference": "f27a1cd2cc62c503f5385c192f88d8dab5dd05e8",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "^1.9",
-                "php": ">=7.2",
-                "tgmpa/tgm-plugin-activation": "^2.6"
-            },
-            "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
-                "phpunit/phpunit": "^7.0",
-                "symfony/var-dumper": "^5.1",
-                "wp-coding-standards/wpcs": "dev-master"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pressmodo\\ThemeRequirements\\": "src"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Pressmodo\\ThemeRequirements\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "bin/phpunit"
-                ]
-            },
-            "license": [
-                "GPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Alessandro Tesoro",
-                    "email": "hello@sematico.com",
-                    "homepage": "https://sematico.com",
-                    "role": "Founder & MD"
-                }
-            ],
-            "homepage": "https://backyard.sematico.com",
-            "keywords": [
-                "pressmodo",
-                "sematico",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/pressmodo/theme-requirements/issues",
-                "source": "https://github.com/Pressmodo/theme-requirements/tree/master"
-            },
-            "time": "2020-11-21T12:37:59+00:00"
-        },
-        {
-            "name": "pressmodo/wp-requirements",
-            "version": "1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Pressmodo/wp-requirements.git",
-                "reference": "ef0538e42482016c804820203738b3b31d6af16c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Pressmodo/wp-requirements/zipball/ef0538e42482016c804820203738b3b31d6af16c",
-                "reference": "ef0538e42482016c804820203738b3b31d6af16c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
-                "php-mock/php-mock-phpunit": "^2.5",
-                "phpunit/phpunit": "^6.5.5",
-                "pressmodo/phpcs-config": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pressmodo\\Requirements\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Pressmodo",
-                    "email": "hello@pressmodo.com",
-                    "homepage": "https://pressmodo.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Alessandro Tesoro",
-                    "email": "hello@sematico.com",
-                    "homepage": "https://alessandrotesoro.me",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Alessandro Tesoro",
-                    "email": "hello@sematico.com",
-                    "homepage": "https://sematico",
-                    "role": "Founder & MD"
-                }
-            ],
-            "description": "An helper library to determine requirements of WordPress plugins and themes.",
-            "homepage": "https://github.com/pressmodo/wp-requirements",
-            "keywords": [
-                "pressmodo",
-                "requirements",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/pressmodo/wp-admin-notices/issues",
-                "source": "https://github.com/Pressmodo/wp-requirements/tree/1.0.2"
-            },
-            "time": "2020-06-10T18:37:41+00:00"
-        },
-        {
             "name": "psr/container",
             "version": "1.0.0",
             "source": {
@@ -978,16 +847,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v5.2.0",
+            "version": "v5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "bb92ba7f38b037e531908590a858a04d85c0e238"
+                "reference": "fa8f8cab6b65e2d99a118e082935344c5ba8c60d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/bb92ba7f38b037e531908590a858a04d85c0e238",
-                "reference": "bb92ba7f38b037e531908590a858a04d85c0e238",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/fa8f8cab6b65e2d99a118e082935344c5ba8c60d",
+                "reference": "fa8f8cab6b65e2d99a118e082935344c5ba8c60d",
                 "shasum": ""
             },
             "require": {
@@ -1020,7 +889,7 @@
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v5.2.0"
+                "source": "https://github.com/symfony/filesystem/tree/v5.2.1"
             },
             "funding": [
                 {
@@ -1036,7 +905,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-12T09:58:18+00:00"
+            "time": "2020-11-30T17:05:38+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1118,65 +987,6 @@
             "time": "2020-10-23T14:02:19+00:00"
         },
         {
-            "name": "tgmpa/tgm-plugin-activation",
-            "version": "2.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TGMPA/TGM-Plugin-Activation.git",
-                "reference": "c626d0d91fc8ef24916e809c7b79eeafab1c1cac"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TGMPA/TGM-Plugin-Activation/zipball/c626d0d91fc8ef24916e809c7b79eeafab1c1cac",
-                "reference": "c626d0d91fc8ef24916e809c7b79eeafab1c1cac",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "class-tgm-plugin-activation.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Thomas Griffin",
-                    "homepage": "http://thomasgriffinmedia.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Gary Jones",
-                    "homepage": "https://github.com/GaryJones",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Juliette Reinders Folmer",
-                    "homepage": "https://github.com/jrfnl",
-                    "role": "Developer"
-                }
-            ],
-            "description": "TGM Plugin Activation is a PHP library that allows you to easily require or recommend plugins for your WordPress themes (and plugins).",
-            "homepage": "http://tgmpluginactivation.com",
-            "keywords": [
-                "activation",
-                "library",
-                "plugins",
-                "theme",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/TGMPA/TGM-Plugin-Activation/issues",
-                "source": "https://github.com/TGMPA/TGM-Plugin-Activation"
-            },
-            "time": "2016-05-19T15:46:51+00:00"
-        },
-        {
             "name": "thamaraiselvam/mysql-import",
             "version": "1.0.1",
             "source": {
@@ -1222,22 +1032,22 @@
     "packages-dev": [
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
-            "version": "v0.7.0",
+            "version": "v0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dealerdirect/phpcodesniffer-composer-installer.git",
-                "reference": "e8d808670b8f882188368faaf1144448c169c0b7"
+                "reference": "fe390591e0241955f22eb9ba327d137e501c771c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/e8d808670b8f882188368faaf1144448c169c0b7",
-                "reference": "e8d808670b8f882188368faaf1144448c169c0b7",
+                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/fe390591e0241955f22eb9ba327d137e501c771c",
+                "reference": "fe390591e0241955f22eb9ba327d137e501c771c",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.0 || ^2.0",
                 "php": ">=5.3",
-                "squizlabs/php_codesniffer": "^2 || ^3 || 4.0.x-dev"
+                "squizlabs/php_codesniffer": "^2.0 || ^3.0 || ^4.0"
             },
             "require-dev": {
                 "composer/composer": "*",
@@ -1288,7 +1098,7 @@
                 "issues": "https://github.com/dealerdirect/phpcodesniffer-composer-installer/issues",
                 "source": "https://github.com/dealerdirect/phpcodesniffer-composer-installer"
             },
-            "time": "2020-06-25T14:57:39+00:00"
+            "time": "2020-12-07T18:04:37+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1687,16 +1497,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.12.1",
+            "version": "1.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "8ce87516be71aae9b956f81906aaf0338e0d8a2d"
+                "reference": "245710e971a030f42e08f4912863805570f23d39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/8ce87516be71aae9b956f81906aaf0338e0d8a2d",
-                "reference": "8ce87516be71aae9b956f81906aaf0338e0d8a2d",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/245710e971a030f42e08f4912863805570f23d39",
+                "reference": "245710e971a030f42e08f4912863805570f23d39",
                 "shasum": ""
             },
             "require": {
@@ -1708,7 +1518,7 @@
             },
             "require-dev": {
                 "phpspec/phpspec": "^6.0",
-                "phpunit/phpunit": "^8.0 || ^9.0 <9.3"
+                "phpunit/phpunit": "^8.0 || ^9.0"
             },
             "type": "library",
             "extra": {
@@ -1748,9 +1558,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpspec/prophecy/issues",
-                "source": "https://github.com/phpspec/prophecy/tree/1.12.1"
+                "source": "https://github.com/phpspec/prophecy/tree/1.12.2"
             },
-            "time": "2020-09-29T09:10:42+00:00"
+            "time": "2020-12-19T10:15:11+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -3016,16 +2826,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.2.0",
+            "version": "v5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "173a79c462b1c81e1fa26129f71e41333d846b26"
+                "reference": "13e7e882eaa55863faa7c4ad7c60f12f1a8b5089"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/173a79c462b1c81e1fa26129f71e41333d846b26",
-                "reference": "173a79c462b1c81e1fa26129f71e41333d846b26",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/13e7e882eaa55863faa7c4ad7c60f12f1a8b5089",
+                "reference": "13e7e882eaa55863faa7c4ad7c60f12f1a8b5089",
                 "shasum": ""
             },
             "require": {
@@ -3084,7 +2894,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v5.2.0"
+                "source": "https://github.com/symfony/var-dumper/tree/v5.2.1"
             },
             "funding": [
                 {
@@ -3100,7 +2910,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-27T00:39:34+00:00"
+            "time": "2020-12-16T17:02:19+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -3261,7 +3071,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "pressmodo/database-prefixer": 20,
-        "pressmodo/theme-requirements": 20,
         "wp-coding-standards/wpcs": 20
     },
     "prefer-stable": true,

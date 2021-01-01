@@ -16,7 +16,6 @@ use Pressmodo\DB\DatabasePrefixer;
 use Pressmodo\Onboarding\Helper;
 use Pressmodo\Onboarding\Installers\PluginInstaller;
 use Pressmodo\Onboarding\SearchReplace;
-use Pressmodo\ThemeRequirements\TGMPAHelper;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -281,7 +280,7 @@ class OnboardingController {
 		$plugin     = isset( $_POST['plugin'] ) && ! empty( $_POST['plugin'] ) ? sanitize_text_field( $_POST['plugin'] ) : false;
 		$pluginSlug = strtok( $plugin, '/' );
 
-		if ( ! isset( TGMPAHelper::getInstance()->plugins[ $pluginSlug ] ) ) {
+		if ( ! isset( Helper::getTGMPAInstance()->plugins[ $pluginSlug ] ) ) {
 			wp_send_json_error( [ 'error_message' => esc_html__( 'The requested plugin does not seem to be required by the theme.', 'pressmodo-onboarding' ) ], 403 );
 		}
 

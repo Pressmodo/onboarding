@@ -22,6 +22,16 @@ defined( 'ABSPATH' ) || exit;
 class Helper {
 
 	/**
+	 * Get the TGMPA instance. Only works after plugins_loaded.
+	 *
+	 * @return \TGM_Plugin_Activation
+	 */
+	public static function getTGMPAInstance() {
+		do_action( 'tgmpa_register' );
+		return call_user_func( array( get_class( $GLOBALS['tgmpa'] ), 'get_instance' ) );
+	}
+
+	/**
 	 * Get theme documentation url.
 	 *
 	 * @return string

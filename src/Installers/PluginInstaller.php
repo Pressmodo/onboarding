@@ -12,7 +12,7 @@
 namespace Pressmodo\Onboarding\Installers;
 
 use Plugin_Upgrader;
-use Pressmodo\ThemeRequirements\TGMPAHelper;
+use Pressmodo\Onboarding\Helper;
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -41,7 +41,7 @@ class PluginInstaller {
 	 */
 	public function installPlugin( $slug ) {
 
-		$tgmpa      = TGMPAHelper::getInstance();
+		$tgmpa      = Helper::getTGMPAInstance();
 		$sourceType = $tgmpa->plugins[ $slug ]['source_type'];
 
 		$config = [
