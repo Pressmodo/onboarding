@@ -133,6 +133,11 @@ class OnboardingController {
 
 		$unzipped = unzip_file( $uploadedFilePath, $extractTo );
 
+		if ( $filesystem->exists( trailingslashit( WP_CONTENT_DIR ) . 'fonts' ) && $filesystem->exists( trailingslashit( $extractTo ) . 'fonts' ) ) {
+			wp_delete_file( trailingslashit( WP_CONTENT_DIR ) . 'fonts' );
+			$filesystem->mirror( trailingslashit( $extractTo ) . 'fonts', trailingslashit( WP_CONTENT_DIR ) . 'fonts' );
+		}
+
 		if ( is_wp_error( $unzipped ) ) {
 			wp_send_json_error( [ 'error_message' => $unzipped->get_error_message() ], 403 );
 		}
