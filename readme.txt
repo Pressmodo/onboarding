@@ -3,7 +3,7 @@ Contributors: sematico, alessandro.tesoro
 Tags: pressmodo, onboarding, themes, demo, import, importer
 Requires at least: 5.5
 Tested up to: 5.6
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -46,7 +46,11 @@ The onboarding process will require you to upload the .zip file of the demo you 
 
 == Changelog ==
 
-*v1.0.2 - 1st January 2021*
+**v1.0.3 - 2nd January 2021**
+
+- Added: support for fonts folder from imported theme configuration.
+
+**v1.0.2 - 1st January 2021**
 
 - Tweak: removed a dependency no longer required.
 
