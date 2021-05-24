@@ -123,9 +123,7 @@ export default () => {
 		axios.post(pmOnboarding.install_plugin_url, formData)
 			.then(function (response) {
 				if ( has(response, 'data') ) {
-					//console.log( response.data.data.activated )
-					setInstalledPlugins( [ ...installedPlugins, response.data.data.activated ] )
-
+					setInstalledPlugins( installedPlugins => [...installedPlugins, response.data.data.activated] )
 					setTimeout(
 						() => checkForMissingPlugin(),
 						3000
@@ -169,11 +167,10 @@ export default () => {
 				setInstallError( { hasError: false, message: null } )
 				setProcessingError( { hasError: false, message: null } )
 
-				/*
 				setTimeout(
 					() => router.replace( '/onboarding/media' ),
 					4000
-				); */
+				);
 			})
 			.catch(function (error) {
 
