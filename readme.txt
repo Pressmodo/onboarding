@@ -3,7 +3,7 @@ Contributors: sematico, alessandro.tesoro
 Tags: pressmodo, onboarding, themes, demo, import, importer
 Requires at least: 5.5
 Tested up to: 5.6
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,6 +45,10 @@ The onboarding process will require you to upload the .zip file of the demo you 
 * PHP version 7.2 or greater is required.
 
 == Changelog ==
+
+**v1.0.4 - 24th May 2021**
+
+- Fixed: list of installed plugins not showing the "installed" status correctly.
 
 **v1.0.3 - 2nd January 2021**
 
