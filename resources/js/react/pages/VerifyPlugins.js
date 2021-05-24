@@ -79,6 +79,8 @@ export default () => {
 
 				setIsVerifying(false)
 
+				console.log( 'verify' )
+
 				if (error.response) {
 					/*
 					 * The request was made and the server responded with a
@@ -87,7 +89,7 @@ export default () => {
 					if (has(error.response, 'data') && has(error.response.data, 'data')) {
 						setRequiresInstall(true)
 						setProcessingError({ hasError: true, message: error.response.data.data.error_message })
-						console.log( error.response.data.data.not_found )
+						//console.log( error.response.data.data.not_found )
 						setRequiredPlugins( error.response.data.data.not_found )
 					}
 				} else if (error.request) {
@@ -121,7 +123,7 @@ export default () => {
 		axios.post(pmOnboarding.install_plugin_url, formData)
 			.then(function (response) {
 				if ( has(response, 'data') ) {
-					console.log( response.data.data.activated )
+					//console.log( response.data.data.activated )
 					setInstalledPlugins( [ ...installedPlugins, response.data.data.activated ] )
 
 					setTimeout(
@@ -167,10 +169,11 @@ export default () => {
 				setInstallError( { hasError: false, message: null } )
 				setProcessingError( { hasError: false, message: null } )
 
+				/*
 				setTimeout(
 					() => router.replace( '/onboarding/media' ),
 					4000
-				);
+				); */
 			})
 			.catch(function (error) {
 
@@ -197,7 +200,7 @@ export default () => {
 	 * Trigger on page load.
 	 */
 	useEffect(() => {
-		if ( requiredPlugins.length === 0 ) {
+		if ( requiredPlugins !== undefined && requiredPlugins.length === 0 ) {
 			requestPluginsVerification()
 		}
 	}, [] )
@@ -273,7 +276,7 @@ export default () => {
 										</div>
 									}
 
-									{ requiresInstall && requiredPlugins.length > 0 &&
+									{ requiresInstall && requiredPlugins !== undefined && requiredPlugins.length > 0 &&
 										<EuiBasicTable
 											items={requiredPlugins}
 											columns={columns}
